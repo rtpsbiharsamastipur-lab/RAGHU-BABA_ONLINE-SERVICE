@@ -31,7 +31,7 @@
     .login-container p { text-align: center; font-size: 0.85rem; color: #64748b; margin-bottom: 2rem; }
     .form-group { margin-bottom: 1.25rem; }
     .form-group label { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; font-weight: 600; }
-    .form-group input, .form-group select { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem; }
+    .form-group input { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem; }
     .btn-primary { width: 100%; background: var(--primary); color: white; padding: 0.75rem; border: none; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; }
     .btn-primary:hover { background: #172554; }
 
@@ -74,18 +74,11 @@
   <div class="container" id="loginSection">
     <div class="login-container">
       <h2>RAGHU BABA</h2>
-      <p>ऑनलाइन सर्विस पोर्टल - अधिकृत लॉगिन</p>
+      <p>ऑनलाइन सर्विस पोर्टल - लॉगिन</p>
       <form onsubmit="handleLogin(event)">
         <div class="form-group">
-          <label>लॉगिन प्रकार (Role)</label>
-          <select id="loginRole">
-            <option value="retailer">दुकानदार (Retailer Login)</option>
-            <option value="admin">मुख्य एडमिन (Admin Login)</option>
-          </select>
-        </div>
-        <div class="form-group">
           <label>User ID / Mobile</label>
-          <input type="text" id="loginId" placeholder="अपनी ID दर्ज करें" required>
+          <input type="text" id="loginId" placeholder="ID दर्ज करें (admin या retailer1)" required>
         </div>
         <div class="form-group">
           <label>Password</label>
@@ -125,7 +118,6 @@
             </tr>
           </thead>
           <tbody id="retailerTableBody">
-            <!-- Dynamically Rendered -->
           </tbody>
         </table>
       </div>
@@ -134,68 +126,57 @@
     <!-- Retailer Services Grid -->
     <h2 class="section-title">सभी ऑनलाइन सेवाएँ (Digital Services)</h2>
     <div class="services-grid">
-      
-      <!-- PAN Card -->
       <div class="card">
         <h3>PAN Services</h3>
         <p>नया पैन कार्ड आवेदन, PAN Correction, PAN Find एवं री-प्रिंट सेवाएँ।</p>
         <button class="action-btn" onclick="openService('PAN Service')">ओपन करें</button>
       </div>
 
-      <!-- Aadhaar Services -->
       <div class="card">
         <h3>Aadhaar Services</h3>
         <p>Aadhaar Download, PVC Card Order, अपॉइंटमेंट बुकिंग व अधिकृत पोर्टल लिंक।</p>
         <button class="action-btn" onclick="openService('Aadhaar Service')">ओपन करें</button>
       </div>
 
-      <!-- Voter ID -->
       <div class="card">
         <h3>Voter Card (NVSP)</h3>
         <p>Voter Search, नया वोटर आईडी कार्ड (Form 6), संशोधन व e-EPIC डाउनलोड।</p>
         <button class="action-btn" onclick="openService('Voter Service')">ओपन करें</button>
       </div>
 
-      <!-- Ayushman Card -->
       <div class="card">
         <h3>Ayushman Bharat</h3>
         <p>पात्रता सत्यापन, नया आयुष्मान कार्ड आवेदन एवं आयुष्मान कार्ड डाउनलोड।</p>
         <button class="action-btn" onclick="openService('Ayushman Service')">ओपन करें</button>
       </div>
 
-      <!-- Driving Licence -->
       <div class="card">
         <h3>Driving Licence (Sarathi)</h3>
         <p>लर्निंग लाइसेंस (LL), पक्का DL आवेदन, नवीनीकरण एवं वाहन सेवाएँ।</p>
         <button class="action-btn" onclick="openService('DL Service')">ओपन करें</button>
       </div>
 
-      <!-- Birth & Caste Certificates -->
       <div class="card">
         <h3>जन्म एवं प्रमाण-पत्र (RTPS)</h3>
         <p>जन्म प्रमाण-पत्र, जाति, आय, निवास और EWS प्रमाण-पत्र ऑनलाइन आवेदन।</p>
         <button class="action-btn" onclick="openService('Certificate Service')">ओपन करें</button>
       </div>
 
-      <!-- Ration Card -->
       <div class="card">
         <h3>Ration Card Services</h3>
         <p>नया राशन कार्ड आवेदन, नाम जोड़ना/हटाना एवं राशन कार्ड डाउनलोड।</p>
         <button class="action-btn" onclick="openService('Ration Card')">ओपन करें</button>
       </div>
 
-      <!-- Other Online Forms -->
       <div class="card">
         <h3>सरकारी योजना व फॉर्म</h3>
         <p>PF निकासी, पेंशन आवेदन, छात्रवृत्ति एवं सभी सरकारी नौकरियों के ऑनलाइन फॉर्म।</p>
         <button class="action-btn" onclick="openService('Government Forms')">ओपन करें</button>
       </div>
-
     </div>
   </div>
 
   <script>
-    // Local Data Store
     let retailers = JSON.parse(localStorage.getItem('rb_retailers')) || [
       { name: "Demo Retailer", id: "retailer1", pass: "12345", wallet: 500 }
     ];
@@ -207,26 +188,25 @@
 
     function handleLogin(e) {
       e.preventDefault();
-      const role = document.getElementById('loginRole').value;
-      const id = document.getElementById('loginId').value;
-      const pass = document.getElementById('loginPass').value;
+      const id = document.getElementById('loginId').value.trim();
+      const pass = document.getElementById('loginPass').value.trim();
 
-      if (role === 'admin') {
-        if (id === 'admin' && pass === 'admin123') {
-          currentUser = { role: 'admin', name: 'Raghu Baba (Admin)', wallet: '∞' };
-          launchDashboard();
-        } else {
-          alert('गलत Admin ID या Password!');
-        }
-      } else {
-        const ret = retailers.find(r => r.id === id && r.pass === pass);
-        if (ret) {
-          currentUser = { role: 'retailer', ...ret };
-          launchDashboard();
-        } else {
-          alert('गलत Retailer ID या Password!');
-        }
+      // Check Admin
+      if (id === 'admin' && pass === 'admin123') {
+        currentUser = { role: 'admin', name: 'Raghu Baba (Admin)', wallet: 'अनलिमिटेड' };
+        launchDashboard();
+        return;
       }
+
+      // Check Retailer
+      const ret = retailers.find(r => r.id === id && r.pass === pass);
+      if (ret) {
+        currentUser = { role: 'retailer', ...ret };
+        launchDashboard();
+        return;
+      }
+
+      alert('गलत ID या Password! कृपया सही विवरण दर्ज करें।\nAdmin के लिए: admin / admin123\nRetailer के लिए: retailer1 / 12345');
     }
 
     function launchDashboard() {
@@ -266,13 +246,13 @@
     }
 
     function addRetailer() {
-      const name = document.getElementById('newRetName').value;
-      const id = document.getElementById('newRetId').value;
-      const pass = document.getElementById('newRetPass').value;
+      const name = document.getElementById('newRetName').value.trim();
+      const id = document.getElementById('newRetId').value.trim();
+      const pass = document.getElementById('newRetPass').value.trim();
       const wallet = parseFloat(document.getElementById('newRetWallet').value) || 0;
 
       if (!name || !id || !pass) {
-        alert('कृपया सभी फ़ील्ड भरें!');
+        alert('कृपया सभी विवरण (नाम, ID, पासवर्ड) भरें!');
         return;
       }
 
@@ -282,4 +262,39 @@
       alert('नया दुकानदार खाता सफलतापूर्वक बन गया!');
       
       document.getElementById('newRetName').value = '';
-      document.getElementById('new
+      document.getElementById('newRetId').value = '';
+      document.getElementById('newRetPass').value = '';
+      document.getElementById('newRetWallet').value = '';
+    }
+
+    function addBalance(index) {
+      const amount = prompt(`दुकानदार ${retailers[index].name} के वॉलेट में कितनी राशि जोड़नी है?`, "500");
+      if (amount && !isNaN(amount)) {
+        retailers[index].wallet += parseFloat(amount);
+        saveRetailers();
+        renderRetailerTable();
+        alert('वॉलेट बैलेंस सफलतापूर्वक जुड़ गया!');
+      }
+    }
+
+    function openService(serviceName) {
+      if (currentUser.role === 'retailer') {
+        if (currentUser.wallet < 10) {
+          alert('अपर्याप्त वॉलेट बैलेंस! काम शुरू करने के लिए कृपया Admin से बैलेंस लोड करवाएँ।');
+          return;
+        }
+      }
+      alert(`${serviceName} खोला जा रहा है।`);
+    }
+
+    function logout() {
+      currentUser = null;
+      document.getElementById('loginSection').style.display = 'block';
+      document.getElementById('mainHeader').style.display = 'none';
+      document.getElementById('dashboardSection').style.display = 'none';
+      document.getElementById('loginId').value = '';
+      document.getElementById('loginPass').value = '';
+    }
+  </script>
+</body>
+</html>
