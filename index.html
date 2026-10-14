@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAGHU BABA ONLINE SERVICE</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --secondary: #0284c7;
+      --accent: #f59e0b;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --border: #e2e8f0;
+      --success: #16a34a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); min-height: 100vh; }
+    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .logo-area h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.5px; }
+    .logo-area p { font-size: 0.8rem; opacity: 0.9; }
+    .user-info { display: flex; align-items: center; gap: 1rem; }
+    .wallet-badge { background: rgba(255,255,255,0.2); padding: 0.4rem 0.8rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem; }
+    .btn-logout { background: #ef4444; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; }
+    .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+    
+    /* Login Box */
+    .login-container { max-width: 420px; margin: 5rem auto; background: var(--card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 1px solid var(--border); }
+    .login-container h2 { text-align: center; margin-bottom: 0.5rem; color: var(--primary); }
+    .login-container p { text-align: center; font-size: 0.85rem; color: #64748b; margin-bottom: 2rem; }
+    .form-group { margin-bottom: 1.25rem; }
+    .form-group label { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; font-weight: 600; }
+    .form-group input, .form-group select { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem; }
+    .btn-primary { width: 100%; background: var(--primary); color: white; padding: 0.75rem; border: none; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; }
+    .btn-primary:hover { background: #172554; }
+
+    /* Dashboard Layout */
+    .dashboard { display: none; }
+    .section-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--primary); border-left: 4px solid var(--accent); padding-left: 0.5rem; }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
+    .card { background: var(--card-bg); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.04); transition: transform 0.2s, box-shadow 0.2s; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.08); }
+    .card h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 0.5rem; }
+    .card p { font-size: 0.85rem; color: #64748b; margin-bottom: 1rem; min-height: 2.5rem; }
+    .card .action-btn { display: inline-block; width: 100%; text-align: center; background: var(--bg); border: 1px solid var(--primary); color: var(--primary); padding: 0.5rem; border-radius: 6px; font-weight: 600; text-decoration: none; font-size: 0.9rem; cursor: pointer; }
+    .card .action-btn:hover { background: var(--primary); color: white; }
+
+    /* Admin Panel Styles */
+    .admin-controls { background: var(--card-bg); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 2rem; }
+    .retailer-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    .retailer-table th, .retailer-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .retailer-table th { background: #f1f5f9; color: var(--primary); }
+    .badge { padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+    .badge-active { background: #dcfce7; color: var(--success); }
+  </style>
+</head>
+<body>
+
+  <!-- App Header -->
+  <header id="mainHeader" style="display: none;">
+    <div class="logo-area">
+      <h1>RAGHU BABA ONLINE SERVICE</h1>
+      <p>Digital Citizen Service Portal</p>
+    </div>
+    <div class="user-info">
+      <span class="wallet-badge" id="walletDisplay">Wallet: ₹0.00</span>
+      <span id="roleDisplay" style="font-size: 0.85rem; opacity: 0.9;"></span>
+      <button class="btn-logout" onclick="logout()">लॉगआउट</button>
+    </div>
+  </header>
+
+  <!-- Login Page -->
+  <div class="container" id="loginSection">
+    <div class="login-container">
+      <h2>RAGHU BABA</h2>
+      <p>ऑनलाइन सर्विस पोर्टल - अधिकृत लॉगिन</p>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>लॉगिन प्रकार (Role)</label>
+          <select id="loginRole">
+            <option value="retailer">दुकानदार (Retailer Login)</option>
+            <option value="admin">मुख्य एडमिन (Admin Login)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>User ID / Mobile</label>
+          <input type="text" id="loginId" placeholder="अपनी ID दर्ज करें" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPass" placeholder="पासवर्ड दर्ज करें" required>
+        </div>
+        <button type="submit" class="btn-primary">पोर्टल में प्रवेश करें</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard Section -->
+  <div class="container dashboard" id="dashboardSection">
+    
+    <!-- Admin Controls Area -->
+    <div id="adminPanelArea" style="display: none;">
+      <h2 class="section-title">Admin Management Console</h2>
+      <div class="admin-controls">
+        <h3>नया दुकानदार (Retailer) जोड़ें</h3>
+        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem;">यहाँ से आप नए दुकानदार की ID और पासवर्ड बना सकते हैं।</p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) 150px; gap: 0.75rem;">
+          <input type="text" id="newRetName" placeholder="दुकानदार का नाम" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 6px;">
+          <input type="text" id="newRetId" placeholder="User ID / Mobile" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 6px;">
+          <input type="password" id="newRetPass" placeholder="Password" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 6px;">
+          <input type="number" id="newRetWallet" placeholder="प्रारंभिक Wallet (₹)" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 6px;">
+          <button class="btn-primary" onclick="addRetailer()" style="padding: 0.5rem;">ID बनाएँ</button>
+        </div>
+
+        <h3 style="margin-top: 1.5rem;">सक्रिय दुकानदार सूची एवं बैलेंस प्रबंधन</h3>
+        <table class="retailer-table">
+          <thead>
+            <tr>
+              <th>दुकानदार का नाम</th>
+              <th>Login ID</th>
+              <th>वॉलेट बैलेंस</th>
+              <th>स्थिति</th>
+              <th>कार्रवाई</th>
+            </tr>
+          </thead>
+          <tbody id="retailerTableBody">
+            <!-- Dynamically Rendered -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Retailer Services Grid -->
+    <h2 class="section-title">सभी ऑनलाइन सेवाएँ (Digital Services)</h2>
+    <div class="services-grid">
+      
+      <!-- PAN Card -->
+      <div class="card">
+        <h3>PAN Services</h3>
+        <p>नया पैन कार्ड आवेदन, PAN Correction, PAN Find एवं री-प्रिंट सेवाएँ।</p>
+        <button class="action-btn" onclick="openService('PAN Service')">ओपन करें</button>
+      </div>
+
+      <!-- Aadhaar Services -->
+      <div class="card">
+        <h3>Aadhaar Services</h3>
+        <p>Aadhaar Download, PVC Card Order, अपॉइंटमेंट बुकिंग व अधिकृत पोर्टल लिंक।</p>
+        <button class="action-btn" onclick="openService('Aadhaar Service')">ओपन करें</button>
+      </div>
+
+      <!-- Voter ID -->
+      <div class="card">
+        <h3>Voter Card (NVSP)</h3>
+        <p>Voter Search, नया वोटर आईडी कार्ड (Form 6), संशोधन व e-EPIC डाउनलोड।</p>
+        <button class="action-btn" onclick="openService('Voter Service')">ओपन करें</button>
+      </div>
+
+      <!-- Ayushman Card -->
+      <div class="card">
+        <h3>Ayushman Bharat</h3>
+        <p>पात्रता सत्यापन, नया आयुष्मान कार्ड आवेदन एवं आयुष्मान कार्ड डाउनलोड।</p>
+        <button class="action-btn" onclick="openService('Ayushman Service')">ओपन करें</button>
+      </div>
+
+      <!-- Driving Licence -->
+      <div class="card">
+        <h3>Driving Licence (Sarathi)</h3>
+        <p>लर्निंग लाइसेंस (LL), पक्का DL आवेदन, नवीनीकरण एवं वाहन सेवाएँ।</p>
+        <button class="action-btn" onclick="openService('DL Service')">ओपन करें</button>
+      </div>
+
+      <!-- Birth & Caste Certificates -->
+      <div class="card">
+        <h3>जन्म एवं प्रमाण-पत्र (RTPS)</h3>
+        <p>जन्म प्रमाण-पत्र, जाति, आय, निवास और EWS प्रमाण-पत्र ऑनलाइन आवेदन।</p>
+        <button class="action-btn" onclick="openService('Certificate Service')">ओपन करें</button>
+      </div>
+
+      <!-- Ration Card -->
+      <div class="card">
+        <h3>Ration Card Services</h3>
+        <p>नया राशन कार्ड आवेदन, नाम जोड़ना/हटाना एवं राशन कार्ड डाउनलोड।</p>
+        <button class="action-btn" onclick="openService('Ration Card')">ओपन करें</button>
+      </div>
+
+      <!-- Other Online Forms -->
+      <div class="card">
+        <h3>सरकारी योजना व फॉर्म</h3>
+        <p>PF निकासी, पेंशन आवेदन, छात्रवृत्ति एवं सभी सरकारी नौकरियों के ऑनलाइन फॉर्म।</p>
+        <button class="action-btn" onclick="openService('Government Forms')">ओपन करें</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // Local Data Store
+    let retailers = JSON.parse(localStorage.getItem('rb_retailers')) || [
+      { name: "Demo Retailer", id: "retailer1", pass: "12345", wallet: 500 }
+    ];
+    let currentUser = null;
+
+    function saveRetailers() {
+      localStorage.setItem('rb_retailers', JSON.stringify(retailers));
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const role = document.getElementById('loginRole').value;
+      const id = document.getElementById('loginId').value;
+      const pass = document.getElementById('loginPass').value;
+
+      if (role === 'admin') {
+        if (id === 'admin' && pass === 'admin123') {
+          currentUser = { role: 'admin', name: 'Raghu Baba (Admin)', wallet: '∞' };
+          launchDashboard();
+        } else {
+          alert('गलत Admin ID या Password!');
+        }
+      } else {
+        const ret = retailers.find(r => r.id === id && r.pass === pass);
+        if (ret) {
+          currentUser = { role: 'retailer', ...ret };
+          launchDashboard();
+        } else {
+          alert('गलत Retailer ID या Password!');
+        }
+      }
+    }
+
+    function launchDashboard() {
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('mainHeader').style.display = 'flex';
+      document.getElementById('dashboardSection').style.display = 'block';
+
+      document.getElementById('roleDisplay').textContent = currentUser.name;
+      document.getElementById('walletDisplay').textContent = currentUser.role === 'admin' 
+        ? 'Admin Account' 
+        : `Wallet: ₹${currentUser.wallet}`;
+
+      if (currentUser.role === 'admin') {
+        document.getElementById('adminPanelArea').style.display = 'block';
+        renderRetailerTable();
+      } else {
+        document.getElementById('adminPanelArea').style.display = 'none';
+      }
+    }
+
+    function renderRetailerTable() {
+      const tbody = document.getElementById('retailerTableBody');
+      tbody.innerHTML = '';
+      retailers.forEach((ret, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${ret.name}</td>
+          <td>${ret.id}</td>
+          <td>₹${ret.wallet}</td>
+          <td><span class="badge badge-active">Active</span></td>
+          <td>
+            <button onclick="addBalance(${index})" style="padding: 0.2rem 0.5rem; background: var(--secondary); color: white; border: none; border-radius: 4px; cursor: pointer;">+ बैलेंस जोड़ें</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function addRetailer() {
+      const name = document.getElementById('newRetName').value;
+      const id = document.getElementById('newRetId').value;
+      const pass = document.getElementById('newRetPass').value;
+      const wallet = parseFloat(document.getElementById('newRetWallet').value) || 0;
+
+      if (!name || !id || !pass) {
+        alert('कृपया सभी फ़ील्ड भरें!');
+        return;
+      }
+
+      retailers.push({ name, id, pass, wallet });
+      saveRetailers();
+      renderRetailerTable();
+      alert('नया दुकानदार खाता सफलतापूर्वक बन गया!');
+      
+      document.getElementById('newRetName').value = '';
+      document.getElementById('new
