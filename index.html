@@ -3,297 +3,392 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RAGHU BABA ONLINE SERVICE</title>
+  <title>RAGHU BABA ONLINE SERVICE - B2B Digital Portal</title>
   <style>
     :root {
-      --primary: #1e3a8a;
-      --secondary: #0284c7;
-      --accent: #f59e0b;
+      --primary-gradient: linear-gradient(135deg, #ff9933, #ffffff, #138808);
+      --dark-blue: #0f172a;
+      --accent: #2563eb;
+      --success: #16a34a;
       --bg: #f8fafc;
       --card-bg: #ffffff;
       --text: #1e293b;
-      --border: #e2e8f0;
-      --success: #16a34a;
+      --border: #cbd5e1;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
     body { background-color: var(--bg); color: var(--text); min-height: 100vh; }
-    header { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-    .logo-area h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.5px; }
-    .logo-area p { font-size: 0.8rem; opacity: 0.9; }
-    .user-info { display: flex; align-items: center; gap: 1rem; }
-    .wallet-badge { background: rgba(255,255,255,0.2); padding: 0.4rem 0.8rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem; }
-    .btn-logout { background: #ef4444; color: white; border: none; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; }
-    .container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
     
-    /* Login Box */
-    .login-container { max-width: 420px; margin: 5rem auto; background: var(--card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 1px solid var(--border); }
-    .login-container h2 { text-align: center; margin-bottom: 0.5rem; color: var(--primary); }
-    .login-container p { text-align: center; font-size: 0.85rem; color: #64748b; margin-bottom: 2rem; }
-    .form-group { margin-bottom: 1.25rem; }
-    .form-group label { display: block; margin-bottom: 0.4rem; font-size: 0.9rem; font-weight: 600; }
-    .form-group input { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem; }
-    .btn-primary { width: 100%; background: var(--primary); color: white; padding: 0.75rem; border: none; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; }
-    .btn-primary:hover { background: #172554; }
+    /* Top Tricolor Header with Logos */
+    header { 
+      background: var(--primary-gradient); 
+      border-bottom: 5px solid #138808;
+      padding: 0.8rem 2rem; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+    .header-left, .header-right { display: flex; align-items: center; gap: 1rem; }
+    .header-logo { height: 65px; object-fit: contain; background: white; padding: 3px; border-radius: 50%; border: 2px solid #ff9933; }
+    .header-logo-csc { height: 60px; object-fit: contain; background: white; padding: 5px; border-radius: 8px; border: 2px solid #0056b3; }
+    .header-center { text-align: center; flex-grow: 1; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+    .header-center h1 { font-size: 1.8rem; font-weight: 800; color: #060606; letter-spacing: 1px; }
+    .header-center p { font-size: 0.85rem; color: #1e293b; font-weight: 700; margin-top: 2px; }
+    
+    /* Marquee Notification */
+    .ticker-bar { background: #dc2626; color: white; padding: 0.4rem 1rem; font-size: 0.85rem; font-weight: bold; overflow: hidden; }
 
-    /* Dashboard Layout */
-    .dashboard { display: none; }
-    .section-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--primary); border-left: 4px solid var(--accent); padding-left: 0.5rem; }
-    .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
-    .card { background: var(--card-bg); padding: 1.25rem; border-radius: 10px; border: 1px solid var(--border); box-shadow: 0 2px 4px rgba(0,0,0,0.04); transition: transform 0.2s, box-shadow 0.2s; }
-    .card:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.08); }
-    .card h3 { font-size: 1.1rem; color: var(--primary); margin-bottom: 0.5rem; }
-    .card p { font-size: 0.85rem; color: #64748b; margin-bottom: 1rem; min-height: 2.5rem; }
-    .card .action-btn { display: inline-block; width: 100%; text-align: center; background: var(--bg); border: 1px solid var(--primary); color: var(--primary); padding: 0.5rem; border-radius: 6px; font-weight: 600; text-decoration: none; font-size: 0.9rem; cursor: pointer; }
-    .card .action-btn:hover { background: var(--primary); color: white; }
+    /* Top User Bar */
+    .user-bar { background: var(--dark-blue); color: white; padding: 0.5rem 2rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+    .wallet-badge { background: #1e293b; border: 1px solid #334155; padding: 0.3rem 0.8rem; border-radius: 6px; font-weight: bold; color: #4ade80; }
+    .btn-exit { background: #dc2626; border: none; color: white; padding: 0.3rem 0.7rem; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
-    /* Admin Panel Styles */
-    .admin-controls { background: var(--card-bg); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 2rem; }
-    .retailer-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    .retailer-table th, .retailer-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .retailer-table th { background: #f1f5f9; color: var(--primary); }
-    .badge { padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
-    .badge-active { background: #dcfce7; color: var(--success); }
+    .container { max-width: 1200px; margin: 1.5rem auto; padding: 0 1rem; }
+    
+    /* Login */
+    #loginPanel { max-width: 420px; margin: 4rem auto; background: var(--card-bg); padding: 2.5rem; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 6px solid #ff9933; }
+    .login-logos { display: flex; justify-content: space-between; margin-bottom: 1.5rem; background: #f1f5f9; padding: 0.5rem; border-radius: 8px; }
+    .login-logos img { height: 50px; }
+    .input-group { margin-bottom: 1.25rem; }
+    .input-group label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.4rem; color: #334155; }
+    .input-group input { width: 100%; padding: 0.75rem; border: 2px solid var(--border); border-radius: 6px; font-size: 1rem; transition: 0.2s; }
+    .input-group input:focus { border-color: var(--accent); outline: none; }
+    .btn-submit { width: 100%; background: #2563eb; color: white; padding: 0.75rem; border: none; border-radius: 6px; font-weight: bold; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 6px rgba(37,99,235,0.2); }
+    .btn-submit:hover { background: #1d4ed8; }
+
+    /* Dashboard */
+    .dashboard-view { display: none; }
+    .section-title { font-size: 1.3rem; font-weight: bold; margin-bottom: 1.2rem; color: #1e3a8a; border-left: 5px solid #ff9933; padding-left: 0.6rem; display: flex; justify-content: space-between; align-items: center; }
+    
+    /* Grid & Cards */
+    .grid-menu { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem; }
+    
+    .service-card { 
+      background: var(--card-bg); 
+      border-radius: 10px; 
+      padding: 1.25rem; 
+      cursor: pointer; 
+      transition: all 0.2s; 
+      position: relative; 
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+    }
+    .service-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+    
+    /* Card Styles by Color Theme */
+    .sc-pan { border-top: 5px solid #1e3a8a; background: linear-gradient(to bottom, #f0f4ff, #ffffff); }
+    .sc-aadhaar { border-top: 5px solid #ff9933; background: linear-gradient(to bottom, #fff7ed, #ffffff); }
+    .sc-voter { border-top: 5px solid #138808; background: linear-gradient(to bottom, #f0fdf4, #ffffff); }
+    .sc-ayushman { border-top: 5px solid #fbbf24; background: linear-gradient(to bottom, #fefef2, #ffffff); }
+    .sc-kisan { border-top: 5px solid #15803d; background: linear-gradient(to bottom, #f0fdf4, #ffffff); }
+    .sc-kisan img { height: 40px; float: right; margin-top: -5px; }
+    .sc-dl { border-top: 5px solid #dc2626; background: linear-gradient(to bottom, #fef2f2, #ffffff); }
+    .sc-rtps { border-top: 5px solid #8b5cf6; background: linear-gradient(to bottom, #faf5ff, #ffffff); }
+    .sc-ration { border-top: 5px solid #06b6d4; background: linear-gradient(to bottom, #ecfeff, #ffffff); }
+
+    .service-card h3 { font-size: 1.15rem; color: #0f172a; margin-bottom: 0.5rem; font-weight: bold; }
+    .service-card p { font-size: 0.85rem; color: #475569; min-height: 2.5rem; line-height: 1.3; }
+    .card-footer { margin-top: 1rem; text-align: right; font-weight: bold; font-size: 0.85rem; color: var(--accent); }
+
+    /* Modal Form Window */
+    .modal-work { display: none; background: var(--card-bg); border-top: 5px solid var(--accent); border-radius: 8px; padding: 2rem; margin-top: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    .modal-work h2 { font-size: 1.4rem; margin-bottom: 1.5rem; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; }
+    
+    /* Admin Setup */
+    #adminMasterSection { border-top: 5px solid #ea580c; background: #fff7ed; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; }
+
+    /* Receipt Box */
+    #printReceiptArea { display: none; background: white; padding: 1.5rem; border: 2px dashed #0f172a; border-radius: 6px; max-width: 600px; margin: 1.5rem auto; }
+    .receipt-header { text-align: center; border-bottom: 1px solid #000; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+    .receipt-row { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; }
   </style>
 </head>
 <body>
 
-  <!-- App Header -->
-  <header id="mainHeader" style="display: none;">
-    <div class="logo-area">
-      <h1>RAGHU BABA ONLINE SERVICE</h1>
-      <p>Digital Citizen Service Portal</p>
+  <!-- Top Decorative Tricolor Brand Banner -->
+  <header>
+    <div class="header-left">
+      <img src="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEiEBj48dKKABxOvy3pBKhnPD5kiNh6LH8_5O1mBOZCPIu0glVjncEIMmUGWv9QlSQOG3A8iQfCP27RH8NchP1puqDzywucD-c__qkfgNVzxbszQ-epKIE1MfAyqKxS73jIb0tbthj7SsrKmpuMnKUSJlIuS4j09d6mffXNffOo_YEcgt_Ibrlh4etz59Xnj9TZAomo45kLXgsScBXuh5JgxKCkoEWwID_yEq18UhQeto=" alt="PM Kisan" class="header-logo">
     </div>
-    <div class="user-info">
-      <span class="wallet-badge" id="walletDisplay">Wallet: ₹0.00</span>
-      <span id="roleDisplay" style="font-size: 0.85rem; opacity: 0.9;"></span>
-      <button class="btn-logout" onclick="logout()">लॉगआउट</button>
+    <div class="header-center">
+      <h1>RAGHU BABA ONLINE SERVICE</h1>
+      <p>ALL DIGITAL SERVICES AT ONE PLACE • भारत सरकार की डिजिटल सेवाएँ</p>
+    </div>
+    <div class="header-right">
+      <img src="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuuZGbszqtm5ZufzUbirS3sQ15yBJjlYpw5VBHt3N1d3utRgBVhU1HFZtjDQ3ksaiUY1MfA4DWNG-d2XOipy3f3t8gVKqA--ihsvucnnpSx5IMD18VYoiZ4n6vs6bGgFup-zLzlsRdyIIV87vrbqWVdYK8R6iVzR1vC173GXUZJyMDwj7muT7NdUif8g==" alt="CSC Service" class="header-logo-csc">
     </div>
   </header>
 
-  <!-- Login Page -->
-  <div class="container" id="loginSection">
-    <div class="login-container">
-      <h2>RAGHU BABA</h2>
-      <p>ऑनलाइन सर्विस पोर्टल - लॉगिन</p>
-      <form onsubmit="handleLogin(event)">
-        <div class="form-group">
-          <label>User ID / Mobile</label>
-          <input type="text" id="loginId" placeholder="ID दर्ज करें (admin या retailer1)" required>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="loginPass" placeholder="पासवर्ड दर्ज करें" required>
-        </div>
-        <button type="submit" class="btn-primary">पोर्टल में प्रवेश करें</button>
-      </form>
+  <!-- Rolling Ticker Notice -->
+  <div class="ticker-bar">
+    <marquee scrollamount="4">🔔 सूचना: पोर्टल पर PM-Kisan, पैन कार्ड, वोटर कार्ड और आयुष्मान भारत की सभी सेवाएँ सुचारू रूप से चालू हैं। आवश्यक सूचना के लिए एडमिन से संपर्क करें। 🔔</marquee>
+  </div>
+
+  <!-- User Active Info Bar -->
+  <div class="user-bar" id="topBar" style="display: none;">
+    <div class="wallet-badge" id="userWallet">Wallet: ₹0.00</div>
+    <div>नमस्ते, <span id="userName" style="font-weight: bold; color: #fbbf24;"></span> (Retailer Account)</div>
+    <button class="btn-exit" onclick="userLogout()">लॉगआउट (Logout)</button>
+  </div>
+
+  <!-- Login Area -->
+  <div class="container" id="loginWrapper">
+    <div id="loginPanel">
+      <div class="login-logos">
+        <img src="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEiEBj48dKKABxOvy3pBKhnPD5kiNh6LH8_5O1mBOZCPIu0glVjncEIMmUGWv9QlSQOG3A8iQfCP27RH8NchP1puqDzywucD-c__qkfgNVzxbszQ-epKIE1MfAyqKxS73jIb0tbthj7SsrKmpuMnKUSJlIuS4j09d6mffXNffOo_YEcgt_Ibrlh4etz59Xnj9TZAomo45kLXgsScBXuh5JgxKCkoEWwID_yEq18UhQeto=" alt="PMKisan">
+        <img src="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuuZGbszqtm5ZufzUbirS3sQ15yBJjlYpw5VBHt3N1d3utRgBVhU1HFZtjDQ3ksaiUY1MfA4DWNG-d2XOipy3f3t8gVKqA--ihsvucnnpSx5IMD18VYoiZ4n6vs6bGgFup-zLzlsRdyIIV87vrbqWVdYK8R6iVzR1vC173GXUZJyMDwj7muT7NdUif8g==" alt="CSC">
+      </div>
+      <h2 style="text-align: center; margin-bottom: 0.4rem; color: #1e3a8a;">डिजिटल पोर्टल लॉगिन</h2>
+      <p style="text-align: center; font-size: 0.8rem; color: #64748b; margin-bottom: 1.5rem;">Raghu Baba Digital Networks</p>
+      
+      <div class="input-group">
+        <label>यूज़र ID (User ID)</label>
+        <input type="text" id="authUserId" placeholder="अपनी ID दर्ज करें">
+      </div>
+      <div class="input-group">
+        <label>पासवर्ड (Password)</label>
+        <input type="password" id="authUserPass" placeholder="पासवर्ड दर्ज करें">
+      </div>
+      <button class="btn-submit" onclick="executeLogin()">पोर्टल में प्रवेश करें</button>
     </div>
   </div>
 
-  <!-- Dashboard Section -->
-  <div class="container dashboard" id="dashboardSection">
-    
-    <!-- Admin Controls Area -->
-    <div id="adminPanelArea" style="display: none;">
-      <h2 class="section-title">Admin Management Console</h2>
-      <div class="admin-controls">
-        <h3>नया दुकानदार (Retailer) जोड़ें</h3>
-        <p style="font-size: 0.85rem; color: #64748b; margin-bottom: 1rem;">यहाँ से आप नए दुकानदार की ID और पासवर्ड बना सकते हैं।</p>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) 150px; gap: 0.75rem;">
-          <input type="text" id="newRetName" placeholder="दुकानदार का नाम" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 6px;">
-          <input type="text" id="newRetId" placeholder="User ID / Mobile" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 6px;">
-          <input type="password" id="newRetPass" placeholder="Password" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 6px;">
-          <input type="number" id="newRetWallet" placeholder="प्रारंभिक Wallet (₹)" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 6px;">
-          <button class="btn-primary" onclick="addRetailer()" style="padding: 0.5rem;">ID बनाएँ</button>
+  <!-- Main Work Dashboard -->
+  <div class="container dashboard-view" id="mainDashboard">
+
+    <!-- Admin Master Section -->
+    <div id="adminMasterSection" style="display: none;">
+      <h3 style="margin-bottom: 0.8rem; font-size: 1.1rem; color: #c2410c;">🛠️ एडमिन कंसोल - दुकानदार और बैलेंस जोड़ें</h3>
+      <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+        <input type="text" id="admRetName" placeholder="दुकानदार का नाम" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
+        <input type="text" id="admRetId" placeholder="User ID" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
+        <input type="text" id="admRetPass" placeholder="Password" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
+        <input type="number" id="admRetBal" placeholder="प्रारंभिक Wallet ₹" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; width: 120px;">
+        <button onclick="createNewRetailerAccount()" style="background: var(--success); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: bold;">ID बनाएँ</button>
+      </div>
+      <div id="retailerListDisplay" style="margin-top: 1rem; font-size: 0.85rem; background: white; padding: 0.8rem; border-radius: 6px; border: 1px solid var(--border);"></div>
+    </div>
+
+    <!-- Active Service Menu -->
+    <h2 class="section-title"><span>📂 मुख्य सेवाएँ (Popular Digital Services)</span> <span>CSC ID: Active</span></h2>
+    <div class="grid-menu">
+      <div class="service-card sc-pan" onclick="openWorkModule('pan_apply')">
+        <h3>PAN Services (पैन कार्ड)</h3>
+        <p>नया पैन कार्ड आवेदन (e-KYC पेपरलेस) और तुरंत रसीद (Acknowledge) जनरेट करें।</p>
+        <div class="card-footer">ओपन करें ➔</div>
+      </div>
+      
+      <div class="service-card sc-aadhaar" onclick="alert('आधार डाउनलोड/अपडेट पोर्टल पर भेजा जा रहा है...')">
+        <h3>Aadhaar Services (आधार)</h3>
+        <p>आधार डाउनलोड, PVC कार्ड आर्डर और अपॉइंटमेंट के डायरेक्ट लिंक।</p>
+        <div class="card-footer">ओपन करें ➔</div>
+      </div>
+
+      <div class="service-card sc-voter" onclick="alert('NVSP पोर्टल खोला जा रहा है...')">
+        <h3>Voter ID NVSP (वोटर कार्ड)</h3>
+        <p>नया वोटर आईडी आवेदन, संशोधन, वोटर लिस्ट सर्च और EPIC डाउनलोड।</p>
+        <div class="card-footer">ओपन करें ➔</div>
+      </div>
+
+      <div class="service-card sc-kisan" onclick="alert('PM Kisan सम्मान निधि पोर्टल एक्टिव किया जा रहा है...')">
+        <img src="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEiEBj48dKKABxOvy3pBKhnPD5kiNh6LH8_5O1mBOZCPIu0glVjncEIMmUGWv9QlSQOG3A8iQfCP27RH8NchP1puqDzywucD-c__qkfgNVzxbszQ-epKIE1MfAyqKxS73jIb0tbthj7SsrKmpuMnKUSJlIuS4j09d6mffXNffOo_YEcgt_Ibrlh4etz59Xnj9TZAomo45kLXgsScBXuh5JgxKCkoEWwID_yEq18UhQeto=" alt="Kisan">
+        <h3>PM Kisan (किसान योजना)</h3>
+        <p>किसान सम्मान निधि केवाईसी, नया पंजीकरण और स्टेटस जाँच।</p>
+        <div class="card-footer">ओपन करें ➔</div>
+      </div>
+
+      <div class="service-card sc-ayushman" onclick="alert('आयुष्मान कार्ड सर्विस...')">
+        <h3>Ayushman Card (आयुष्मान भारत)</h3>
+        <p>पात्रता की जाँच, नया आयुष्मान कार्ड बनाना और कार्ड डाउनलोड प्रिंट।</p>
+        <div class="card-footer">ओपन करें ➔</div>
+      </div>
+
+      <div class="service-card sc-dl" onclick="alert('परिवहन सेवा...')">
+        <h3>DL / LL Apply (ड्राइविंग लाइसेंस)</h3>
+        <p>लर्निंग लाइसेंस, परमानेंट ड्राइविंग लाइसेंस, नवीनीकरण और स्टेटस।</p>
+        <div class="card-footer">ओपन करें ➔</div>
+      </div>
+
+      <div class="service-card sc-rtps" onclick="alert('RTPS प्रमाण पत्र पोर्टल...')">
+        <h3>RTPS / Birth Certificate</h3>
+        <p>जन्म प्रमाण-पत्र, जाति, आय, निवास और EWS ऑनलाइन आवेदन।</p>
+        <div class="card-footer">ओपन करें ➔</div>
+      </div>
+
+      <div class="service-card sc-ration" onclick="alert('राशन कार्ड पोर्टल...')">
+        <h3>Ration Card (राशन कार्ड)</h3>
+        <p>नया राशन कार्ड आवेदन, नाम सुधार और राशन कार्ड डाउनलोड।</p>
+        <div class="card-footer">ओपन करें ➔</div>
+      </div>
+    </div>
+
+    <!-- Active PAN Apply Window -->
+    <div class="modal-work" id="panApplyModule">
+      <h2>🆕 नया पैन कार्ड पेपरलेस आवेदन (Form 49A)</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="input-group">
+          <label>आवेदक का पूरा नाम (Applicant Name)</label>
+          <input type="text" id="panCustName" placeholder="आधार कार्ड के अनुसार दर्ज करें">
         </div>
+        <div class="input-group">
+          <label>पिता का नाम (Father's Name)</label>
+          <input type="text" id="panCustFather" placeholder="पिता का पूरा नाम">
+        </div>
+        <div class="input-group">
+          <label>जन्म तिथि (Date of Birth)</label>
+          <input type="date" id="panCustDob">
+        </div>
+        <div class="input-group">
+          <label>मोबाइल नंबर (Mobile Number)</label>
+          <input type="number" id="panCustMobile" placeholder="ग्राहक का मोबाइल">
+        </div>
+      </div>
+      <p style="font-size: 0.85rem; color: #dc2626; margin-bottom: 1.2rem; font-weight: bold;">📜 नोट: आवेदन के लिए ₹107 की राशि आपके वॉलेट से काटी जाएगी और तुरंत प्रिंट रसीद (Slip) मिल जाएगी।</p>
+      <button class="btn-submit" onclick="submitPanCardApplication()" style="width: 250px;">सबमिट करें और रसीद पाएँ</button>
+    </div>
 
-        <h3 style="margin-top: 1.5rem;">सक्रिय दुकानदार सूची एवं बैलेंस प्रबंधन</h3>
-        <table class="retailer-table">
-          <thead>
-            <tr>
-              <th>दुकानदार का नाम</th>
-              <th>Login ID</th>
-              <th>वॉलेट बैलेंस</th>
-              <th>स्थिति</th>
-              <th>कार्रवाई</th>
-            </tr>
-          </thead>
-          <tbody id="retailerTableBody">
-          </tbody>
-        </table>
+    <!-- Receipt Display -->
+    <div id="printReceiptArea">
+      <div class="receipt-header">
+        <h2 style="font-size: 1.2rem; color: #1e3a8a;">RAGHU BABA ONLINE SERVICE</h2>
+        <p style="font-size: 0.8rem; color: #475569;">Digital Seva Center Acknowledgement Receipt</p>
+      </div>
+      <div class="receipt-row"><span>Receipt / Acknowledge No:</span><strong id="rcptNo" style="color: #1e3a8a;"></strong></div>
+      <div class="receipt-row"><span>दिनांक एवं समय (Date & Time):</span><span id="rcptDate"></span></div>
+      <div class="receipt-row"><span>ग्राहक का नाम (Applicant Name):</span><strong id="rcptName"></strong></div>
+      <div class="receipt-row"><span>सेवा का प्रकार (Service):</span><strong>New PAN Card Application (Form 49A)</strong></div>
+      <div class="receipt-row"><span>स्थिति (Status):</span><span style="color: green; font-weight: bold;">सफल (SUBMITTED)</span></div>
+      <div class="receipt-row"><span>कुल शुल्क (Total Charge):</span><strong>₹107.00</strong></div>
+      <hr style="margin: 0.8rem 0; border: 1px dashed #000;">
+      <p style="text-align: center; font-size: 0.8rem; color: #475569;">यह एक कंप्यूटर जनित डिजिटल रसीद है।</p>
+      <div style="text-align: center; margin-top: 1.2rem;">
+        <button onclick="window.print()" style="padding: 0.5rem 1.5rem; background: #138808; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">रसीद प्रिंट करें (Print Receipt)</button>
       </div>
     </div>
 
-    <!-- Retailer Services Grid -->
-    <h2 class="section-title">सभी ऑनलाइन सेवाएँ (Digital Services)</h2>
-    <div class="services-grid">
-      <div class="card">
-        <h3>PAN Services</h3>
-        <p>नया पैन कार्ड आवेदन, PAN Correction, PAN Find एवं री-प्रिंट सेवाएँ।</p>
-        <button class="action-btn" onclick="openService('PAN Service')">ओपन करें</button>
-      </div>
-
-      <div class="card">
-        <h3>Aadhaar Services</h3>
-        <p>Aadhaar Download, PVC Card Order, अपॉइंटमेंट बुकिंग व अधिकृत पोर्टल लिंक।</p>
-        <button class="action-btn" onclick="openService('Aadhaar Service')">ओपन करें</button>
-      </div>
-
-      <div class="card">
-        <h3>Voter Card (NVSP)</h3>
-        <p>Voter Search, नया वोटर आईडी कार्ड (Form 6), संशोधन व e-EPIC डाउनलोड।</p>
-        <button class="action-btn" onclick="openService('Voter Service')">ओपन करें</button>
-      </div>
-
-      <div class="card">
-        <h3>Ayushman Bharat</h3>
-        <p>पात्रता सत्यापन, नया आयुष्मान कार्ड आवेदन एवं आयुष्मान कार्ड डाउनलोड।</p>
-        <button class="action-btn" onclick="openService('Ayushman Service')">ओपन करें</button>
-      </div>
-
-      <div class="card">
-        <h3>Driving Licence (Sarathi)</h3>
-        <p>लर्निंग लाइसेंस (LL), पक्का DL आवेदन, नवीनीकरण एवं वाहन सेवाएँ।</p>
-        <button class="action-btn" onclick="openService('DL Service')">ओपन करें</button>
-      </div>
-
-      <div class="card">
-        <h3>जन्म एवं प्रमाण-पत्र (RTPS)</h3>
-        <p>जन्म प्रमाण-पत्र, जाति, आय, निवास और EWS प्रमाण-पत्र ऑनलाइन आवेदन।</p>
-        <button class="action-btn" onclick="openService('Certificate Service')">ओपन करें</button>
-      </div>
-
-      <div class="card">
-        <h3>Ration Card Services</h3>
-        <p>नया राशन कार्ड आवेदन, नाम जोड़ना/हटाना एवं राशन कार्ड डाउनलोड।</p>
-        <button class="action-btn" onclick="openService('Ration Card')">ओपन करें</button>
-      </div>
-
-      <div class="card">
-        <h3>सरकारी योजना व फॉर्म</h3>
-        <p>PF निकासी, पेंशन आवेदन, छात्रवृत्ति एवं सभी सरकारी नौकरियों के ऑनलाइन फॉर्म।</p>
-        <button class="action-btn" onclick="openService('Government Forms')">ओपन करें</button>
-      </div>
-    </div>
   </div>
 
   <script>
-    let retailers = JSON.parse(localStorage.getItem('rb_retailers')) || [
+    let activeSession = null;
+    let storedAccounts = JSON.parse(localStorage.getItem('rb_accounts_cloud_secured')) || [
       { name: "Demo Retailer", id: "retailer1", pass: "12345", wallet: 500 }
     ];
-    let currentUser = null;
 
-    function saveRetailers() {
-      localStorage.setItem('rb_retailers', JSON.stringify(retailers));
+    function syncAccounts() {
+      localStorage.setItem('rb_accounts_cloud_secured', JSON.stringify(storedAccounts));
     }
 
-    function handleLogin(e) {
-      e.preventDefault();
-      const id = document.getElementById('loginId').value.trim();
-      const pass = document.getElementById('loginPass').value.trim();
+    function executeLogin() {
+      const u = document.getElementById('authUserId').value.trim();
+      const p = document.getElementById('authUserPass').value.trim();
 
-      // Check Admin
-      if (id === 'admin' && pass === 'admin123') {
-        currentUser = { role: 'admin', name: 'Raghu Baba (Admin)', wallet: 'अनलिमिटेड' };
-        launchDashboard();
+      if (u === 'admin' && p === 'admin123') {
+        activeSession = { role: 'admin', name: 'Master Admin', wallet: 'अनलिमिटेड' };
+        renderDashboard();
         return;
       }
 
-      // Check Retailer
-      const ret = retailers.find(r => r.id === id && r.pass === pass);
-      if (ret) {
-        currentUser = { role: 'retailer', ...ret };
-        launchDashboard();
+      const match = storedAccounts.find(x => x.id === u && x.pass === p);
+      if (match) {
+        activeSession = { role: 'retailer', ...match };
+        renderDashboard();
         return;
       }
 
-      alert('गलत ID या Password! कृपया सही विवरण दर्ज करें।\nAdmin के लिए: admin / admin123\nRetailer के लिए: retailer1 / 12345');
+      alert('गलत यूज़र ID या पासवर्ड!');
     }
 
-    function launchDashboard() {
-      document.getElementById('loginSection').style.display = 'none';
-      document.getElementById('mainHeader').style.display = 'flex';
-      document.getElementById('dashboardSection').style.display = 'block';
+    function renderDashboard() {
+      document.getElementById('loginWrapper').style.display = 'none';
+      document.getElementById('topBar').style.display = 'flex';
+      document.getElementById('mainDashboard').style.display = 'block';
 
-      document.getElementById('roleDisplay').textContent = currentUser.name;
-      document.getElementById('walletDisplay').textContent = currentUser.role === 'admin' 
-        ? 'Admin Account' 
-        : `Wallet: ₹${currentUser.wallet}`;
+      document.getElementById('userName').textContent = activeSession.name;
+      document.getElementById('userWallet').textContent = activeSession.role === 'admin' 
+        ? 'मुख्य एडमिन (Admin)' 
+        : `Wallet Balance: ₹${activeSession.wallet}.00`;
 
-      if (currentUser.role === 'admin') {
-        document.getElementById('adminPanelArea').style.display = 'block';
-        renderRetailerTable();
+      if (activeSession.role === 'admin') {
+        document.getElementById('adminMasterSection').style.display = 'block';
+        refreshRetailerList();
       } else {
-        document.getElementById('adminPanelArea').style.display = 'none';
+        document.getElementById('adminMasterSection').style.display = 'none';
       }
     }
 
-    function renderRetailerTable() {
-      const tbody = document.getElementById('retailerTableBody');
-      tbody.innerHTML = '';
-      retailers.forEach((ret, index) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${ret.name}</td>
-          <td>${ret.id}</td>
-          <td>₹${ret.wallet}</td>
-          <td><span class="badge badge-active">Active</span></td>
-          <td>
-            <button onclick="addBalance(${index})" style="padding: 0.2rem 0.5rem; background: var(--secondary); color: white; border: none; border-radius: 4px; cursor: pointer;">+ बैलेंस जोड़ें</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
-      });
+    function createNewRetailerAccount() {
+      const name = document.getElementById('admRetName').value.trim();
+      const id = document.getElementById('admRetId').value.trim();
+      const pass = document.getElementById('admRetPass').value.trim();
+      const bal = parseFloat(document.getElementById('admRetBal').value) || 0;
+
+      if (!name || !id || !pass) return alert('सभी विवरण भरना अनिवार्य है!');
+
+      storedAccounts.push({ name, id, pass, wallet: bal });
+      syncAccounts();
+      refreshRetailerList();
+      alert('नया दुकानदार (ID) सफलतापूर्वक जोड़ दिया गया है!');
+
+      document.getElementById('admRetName').value = '';
+      document.getElementById('admRetId').value = '';
+      document.getElementById('admRetPass').value = '';
+      document.getElementById('admRetBal').value = '';
     }
 
-    function addRetailer() {
-      const name = document.getElementById('newRetName').value.trim();
-      const id = document.getElementById('newRetId').value.trim();
-      const pass = document.getElementById('newRetPass').value.trim();
-      const wallet = parseFloat(document.getElementById('newRetWallet').value) || 0;
-
-      if (!name || !id || !pass) {
-        alert('कृपया सभी विवरण (नाम, ID, पासवर्ड) भरें!');
-        return;
-      }
-
-      retailers.push({ name, id, pass, wallet });
-      saveRetailers();
-      renderRetailerTable();
-      alert('नया दुकानदार खाता सफलतापूर्वक बन गया!');
-      
-      document.getElementById('newRetName').value = '';
-      document.getElementById('newRetId').value = '';
-      document.getElementById('newRetPass').value = '';
-      document.getElementById('newRetWallet').value = '';
+    function refreshRetailerList() {
+      const target = document.getElementById('retailerListDisplay');
+      target.innerHTML = '<strong>दुकानदार सूची (Active Retailers):</strong> ' + storedAccounts.map((a, i) => 
+        `🔑 ${a.name} (ID: ${a.id}) - वॉलेट: ₹${a.wallet} <button onclick="topUpBalance(${i})" style="cursor:pointer; font-size:0.75rem; padding: 1px 4px; background:#1e3a8a; color:white; border:none; border-radius:3px;">बैलेंस जोड़ें</button>`
+      ).join(' | ');
     }
 
-    function addBalance(index) {
-      const amount = prompt(`दुकानदार ${retailers[index].name} के वॉलेट में कितनी राशि जोड़नी है?`, "500");
-      if (amount && !isNaN(amount)) {
-        retailers[index].wallet += parseFloat(amount);
-        saveRetailers();
-        renderRetailerTable();
-        alert('वॉलेट बैलेंस सफलतापूर्वक जुड़ गया!');
+    function topUpBalance(index) {
+      const val = prompt(`दुकानदार ${storedAccounts[index].name} के वॉलेट में कितनी राशि जोड़नी है?`, "500");
+      if (val && !isNaN(val)) {
+        storedAccounts[index].wallet += parseFloat(val);
+        syncAccounts();
+        refreshRetailerList();
+        alert('वॉलेट बैलेंस अपडेट कर दिया गया है!');
       }
     }
 
-    function openService(serviceName) {
-      if (currentUser.role === 'retailer') {
-        if (currentUser.wallet < 10) {
-          alert('अपर्याप्त वॉलेट बैलेंस! काम शुरू करने के लिए कृपया Admin से बैलेंस लोड करवाएँ।');
-          return;
+    function openWorkModule(moduleName) {
+      if (moduleName === 'pan_apply') {
+        document.getElementById('panApplyModule').style.display = 'block';
+      }
+    }
+
+    function submitPanCardApplication() {
+      const name = document.getElementById('panCustName').value.trim();
+      if (!name) return alert('ग्राहक का नाम भरना आवश्यक है!');
+
+      if (activeSession.role === 'retailer') {
+        if (activeSession.wallet < 107) {
+          return alert('आपके वॉलेट में पर्याप्त बैलेंस नहीं है (न्यूनतम ₹107 आवश्यक)!');
         }
+        activeSession.wallet -= 107;
+        const target = storedAccounts.find(x => x.id === activeSession.id);
+        if (target) target.wallet = activeSession.wallet;
+        syncAccounts();
+        document.getElementById('userWallet').textContent = `Wallet Balance: ₹${activeSession.wallet}.00`;
       }
-      alert(`${serviceName} खोला जा रहा है।`);
+
+      // Generate Slip Screen
+      document.getElementById('panApplyModule').style.display = 'none';
+      document.getElementById('printReceiptArea').style.display = 'block';
+      document.getElementById('rcptNo').textContent = 'RB-PAN' + Math.floor(100000000 + Math.random() * 900000000);
+      document.getElementById('rcptDate').textContent = new Date().toLocaleString();
+      document.getElementById('rcptName').textContent = name;
     }
 
-    function logout() {
-      currentUser = null;
-      document.getElementById('loginSection').style.display = 'block';
-      document.getElementById('mainHeader').style.display = 'none';
-      document.getElementById('dashboardSection').style.display = 'none';
-      document.getElementById('loginId').value = '';
-      document.getElementById('loginPass').value = '';
+    function userLogout() {
+      activeSession = null;
+      document.getElementById('loginWrapper').style.display = 'block';
+      document.getElementById('topBar').style.display = 'none';
+      document.getElementById('mainDashboard').style.display = 'none';
+      document.getElementById('printReceiptArea').style.display = 'none';
+      document.getElementById('panApplyModule').style.display = 'none';
     }
   </script>
 </body>
