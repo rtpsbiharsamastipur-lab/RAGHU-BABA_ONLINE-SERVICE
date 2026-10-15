@@ -5,119 +5,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RAGHU BABA ONLINE SERVICE - Login</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background: #1e1b4b; min-height: 100vh; padding: 25px 15px; }
 
-    body {
-      background: #1e1b4b;
-      min-height: 100vh;
-      padding: 20px 10px;
-    }
-
-    /* Top Bar */
     .top-header {
-      max-width: 440px;
-      margin: 0 auto 20px auto;
-      background: #ffffff;
-      padding: 12px;
-      border-radius: 8px;
-      text-align: center;
-      font-weight: bold;
-      color: #2563eb;
-      font-size: 16px;
+      max-width: 440px; margin: 0 auto 20px auto; background: #ffffff;
+      padding: 12px; border-radius: 8px; text-align: center;
+      font-weight: bold; color: #2563eb; font-size: 16px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
 
-    /* Main Login Card - Solid Background (No Invisible Glitch) */
-    .login-container {
-      max-width: 440px;
-      margin: 0 auto;
-      background: #ffffff;
-      padding: 30px 20px;
-      border-radius: 12px;
+    /* Login Card */
+    #loginCard {
+      max-width: 440px; margin: 0 auto; background: #ffffff;
+      padding: 30px 22px; border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       border-top: 5px solid #2563eb;
     }
 
-    .brand-title {
-      font-size: 20px;
-      color: #0f172a;
-      text-align: center;
-      font-weight: 800;
-      margin-bottom: 4px;
-    }
+    .brand-title { font-size: 20px; color: #0f172a; text-align: center; font-weight: 800; margin-bottom: 4px; }
+    .brand-subtitle { font-size: 13px; color: #64748b; text-align: center; margin-bottom: 22px; }
 
-    .brand-subtitle {
-      font-size: 13px;
-      color: #64748b;
-      text-align: center;
-      margin-bottom: 25px;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      font-size: 13px;
-      font-weight: bold;
-      color: #334155;
-      margin-bottom: 6px;
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 12px;
-      border: 1.5px solid #cbd5e1;
-      border-radius: 6px;
-      font-size: 15px;
-      outline: none;
-    }
-
-    .form-group input:focus {
-      border-color: #2563eb;
-    }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 13px; font-weight: bold; color: #334155; margin-bottom: 6px; }
+    .form-group input { width: 100%; padding: 12px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 15px; outline: none; }
+    .form-group input:focus { border-color: #2563eb; }
 
     .btn-login {
-      width: 100%;
-      background: #2563eb;
-      color: #ffffff;
-      border: none;
-      padding: 13px;
-      font-size: 16px;
-      font-weight: bold;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 10px;
+      width: 100%; background: #2563eb; color: #ffffff; border: none;
+      padding: 13px; font-size: 16px; font-weight: bold; border-radius: 6px;
+      cursor: pointer; margin-top: 8px;
     }
+    .btn-login:hover { background: #1d4ed8; }
 
-    .btn-login:hover {
-      background: #1d4ed8;
-    }
+    .help-box { margin-top: 20px; text-align: center; font-size: 13px; color: #64748b; }
 
-    .help-box {
-      margin-top: 20px;
-      text-align: center;
-      font-size: 13px;
-      color: #64748b;
-    }
-
-    /* Success Dashboard Screen (Default Hidden) */
+    /* Dashboard View */
     #dashboardView {
-      display: none;
-      max-width: 600px;
-      margin: 20px auto;
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-      text-align: center;
+      display: none; max-width: 800px; margin: 0 auto;
+      background: #ffffff; padding: 25px; border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
+    .dash-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px; }
+    .btn-logout { background: #dc2626; color: white; border: none; padding: 8px 18px; border-radius: 5px; font-weight: bold; cursor: pointer; }
+    
+    .admin-box { background: #fff7ed; border: 1.5px solid #fdba74; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+    .admin-box h3 { color: #c2410c; margin-bottom: 10px; font-size: 16px; }
+    .admin-form { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+    .admin-form input { padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px; }
+    .btn-green { background: #16a34a; color: white; border: none; padding: 8px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+    
+    .status-msg { font-size: 13px; font-weight: bold; color: #16a34a; margin-top: 8px; }
   </style>
 </head>
 <body>
@@ -127,32 +65,103 @@
   </div>
 
   <!-- 1. LOGIN SCREEN -->
-  <div class="login-container" id="loginCard">
+  <div id="loginCard">
     <div class="brand-title">RAGHU BABA ONLINE SERVICE</div>
     <div class="brand-subtitle">Digital Portal Login</div>
 
-    <form onsubmit="handleDirectLogin(event)">
-      <div class="form-group">
-        <label>User ID / Mobile Number</label>
-        <input type="text" id="userBox" placeholder="User ID दर्ज करें (जैसे admin)" required autocomplete="off">
-      </div>
+    <div class="form-group">
+      <label>User ID / Mobile Number</label>
+      <input type="text" id="userBox" placeholder="User ID darj karein (jaise admin)" autocomplete="off">
+    </div>
 
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="passBox" placeholder="Password दर्ज करें" required autocomplete="off">
-      </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="passBox" placeholder="Password darj karein (jaise admin123)" autocomplete="off">
+    </div>
 
-      <button type="submit" class="btn-login" id="submitBtn">लॉगिन करें</button>
-    </form>
+    <button type="button" class="btn-login" id="submitBtn" onclick="processLogin()">लॉगिन करें</button>
 
     <div class="help-box">
-      WhatsApp सहायता: <strong>8207827581</strong>
+      WhatsApp sahayata: <strong>8207827581</strong>
     </div>
   </div>
 
-  <!-- 2. DASHBOARD VIEW (लॉगिन होते ही यह दिखेगा) -->
+  <!-- 2. DASHBOARD SCREEN -->
   <div id="dashboardView">
-    <h2 style="color: #16a34a; margin-bottom: 10px;">🎉 लॉगिन सफल रहा!</h2>
-    <p style="font-size: 14px; color: #334155; margin-bottom: 15px;">स्वागत है: <strong id="welcomeUser"></strong></p>
-    <div style="background: #f1f5f9; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
-      <p style="font-size: 13px; color: #475569;">पोर्टल डैशबोर्ड सक्रिय हो चुका है।</
+    <div class="dash-top">
+      <div>
+        <h2 style="color: #1e3a8a;">Digital Portal Active</h2>
+        <p style="font-size: 13px; color: #64748b; margin-top: 4px;">User: <strong id="welcomeUser" style="color: #059669;"></strong></p>
+      </div>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminArea" class="admin-box" style="display: none;">
+      <h3>🛠️ Master Admin Console - Naya Retailer Banayein</h3>
+      <div class="admin-form">
+        <input type="text" id="rName" placeholder="Dukandar ka naam">
+        <input type="text" id="rId" placeholder="User ID / Mobile">
+        <input type="text" id="rPass" placeholder="Password">
+        <input type="number" id="rBal" placeholder="Wallet ₹" style="width: 100px;">
+        <button class="btn-green" type="button" onclick="saveRetailer()">Dukandar Save Karein</button>
+      </div>
+      <div id="adminMsg" class="status-msg"></div>
+    </div>
+
+    <div style="background: #f8fafc; border: 1.5px dashed #cbd5e1; border-radius: 8px; padding: 25px; text-align: center;">
+      <h3 style="color: #15803d; margin-bottom: 8px;">✅ Login Safal Ho Gaya!</h3>
+      <p style="font-size: 13px; color: #64748b;">Aapka account active hai aur Realtime Database se connected hai.</p>
+    </div>
+  </div>
+
+  <script>
+    var FIREBASE_URL = "https://raghudigital-b685f-default-rtdb.firebaseio.com";
+
+    function processLogin() {
+      var u = (document.getElementById('userBox').value || '').trim();
+      var p = (document.getElementById('passBox').value || '').trim();
+      var btn = document.getElementById('submitBtn');
+
+      if (!u || !p) {
+        alert('Kripya User ID aur Password dono bharein!');
+        return;
+      }
+
+      btn.innerText = "Checking...";
+      btn.disabled = true;
+
+      // 1. Direct Admin Login (Immediate Access)
+      if (u === 'admin' && p === 'admin123') {
+        btn.innerText = "लॉगिन करें";
+        btn.disabled = false;
+        openDashboard('Master Admin (Raghu Baba)', true);
+        return;
+      }
+
+      // 2. Retailer Database Check
+      fetch(FIREBASE_URL + "/retailers/" + encodeURIComponent(u) + ".json")
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          btn.innerText = "लॉगिन करें";
+          btn.disabled = false;
+
+          if (!data) {
+            alert('Ye ID (' + u + ') registered nahi hai! Pehle admin se banwayein.');
+            return;
+          }
+
+          if (data.pass === p) {
+            openDashboard(data.name + ' (Wallet: ₹' + (data.wallet || 0) + ')', false);
+          } else {
+            alert('Galat Password! Kripya sahi password dalein.');
+          }
+        })
+        .catch(function(err) {
+          btn.innerText = "लॉगिन करें";
+          btn.disabled = false;
+          alert('Database Error: ' + err.message);
+        });
+    }
+
+    function openDashboard(userLabel, isAdmin
