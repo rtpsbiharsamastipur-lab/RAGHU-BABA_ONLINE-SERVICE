@@ -1,222 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Login to Rekha Print Portal for secure access to all your printing services.">
-<meta name="keywords" content="Rekha Print Portal, Rekha Print, Rekha Portal, Rekha Online Print, Rekha Printing Services">
-<title>YASH PORTAL Print - Login</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<style>
-* { box-sizing: border-box; }
-body {
-    margin: 0;
-    font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow-x: hidden;
-}
-#particles {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    z-index: 0;
-}
-.particle {
-    position: absolute;
-    background: rgba(255,255,255,0.3);
-    border-radius: 50%;
-    animation: float linear infinite;
-}
-@keyframes float {
-    0% {transform: translateY(0) translateX(0);}
-    100% {transform: translateY(-120vh) translateX(20px);}
-}
-.brand-watermark {
-    position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 10vw;
-    color: rgba(255,255,255,0.05);
-    font-family: 'Playfair Display', serif;
-    z-index: 0;
-    text-align: center;
-    animation: fade 5s infinite alternate;
-}
-@keyframes fade {
-    from {opacity: 0.05;}
-    to {opacity: 0.1;}
-}
-.luxury-container {
-    position: relative;
-    z-index: 1;
-    width: 90%;
-    max-width: 450px;
-    margin: 20px auto;
-    padding: 0 10px;
-}
-.luxury-card {
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(25px);
-    border-radius: 20px;
-    padding: 30px 20px;
-    width: 100%;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-    text-align: center;
-    color: #fff;
-}
-.brand-header .brand-logo {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8em;
-    font-weight: 700;
-}
-.brand-header .brand-subtitle {
-    font-size: 0.9em;
-    letter-spacing: 1px;
-    color: #ddd;
-    margin-bottom: 15px;
-}
-.form-group {
-    position: relative;
-    margin-bottom: 20px;
-}
-.form-group input {
-    width: 100%;
-    padding: 12px 40px 12px 15px;
-    border-radius: 8px;
-    border: none;
-    background: rgba(255,255,255,0.1);
-    color: #fff;
-    font-size: 1em;
-}
-.form-group input:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(255,255,255,0.5);
-}
-.input-icon {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    font-size: 1.1em;
-}
-.submit-btn {
-    width: 100%;
-    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-    color: white;
-    padding: 12px;
-    font-size: 1em;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-.submit-btn:hover {
-    transform: scale(1.03);
-    opacity: 0.95;
-}
-.footer-links {
-    margin-top: 15px;
-    font-size: 0.85em;
-}
-.footer-links a {
-    color: #ddd;
-    text-decoration: none;
-    margin: 0 4px;
-}
-.footer-links a:hover {
-    text-decoration: underline;
-}
-.download-app-btn {
-    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    transition: 0.3s;
-}
-.download-app-btn:hover {
-    opacity: 0.85;
-}
-@media(max-width:400px){
-    .brand-header .brand-logo {
-        font-size: 1.5em;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAGHU BABA ONLINE SERVICE - Login</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
     }
-    .luxury-card {
-        padding: 20px 15px;
+
+    body {
+      background: #1e1b4b;
+      min-height: 100vh;
+      padding: 20px 10px;
     }
-}
-</style>
+
+    /* Top Bar */
+    .top-header {
+      max-width: 440px;
+      margin: 0 auto 20px auto;
+      background: #ffffff;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      font-weight: bold;
+      color: #2563eb;
+      font-size: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    /* Main Login Card - Solid Background (No Invisible Glitch) */
+    .login-container {
+      max-width: 440px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 30px 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border-top: 5px solid #2563eb;
+    }
+
+    .brand-title {
+      font-size: 20px;
+      color: #0f172a;
+      text-align: center;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .brand-subtitle {
+      font-size: 13px;
+      color: #64748b;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: bold;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: #2563eb;
+    }
+
+    .btn-login {
+      width: 100%;
+      background: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 13px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn-login:hover {
+      background: #1d4ed8;
+    }
+
+    .help-box {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    /* Success Dashboard Screen (Default Hidden) */
+    #dashboardView {
+      display: none;
+      max-width: 600px;
+      margin: 20px auto;
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 
-<div style="position:fixed;top:20px;right:20px;z-index:10;">
-    <!---<a href="app-release.apk" class="download-app-btn">📱 Download App</a>---->
-</div>
+  <div class="top-header">
+    Raghu Baba Digital Services
+  </div>
 
-<div id="particles"></div>
-<div class="brand-watermark">Welcome to YASH PORTAL Print</div>
+  <!-- 1. LOGIN SCREEN -->
+  <div class="login-container" id="loginCard">
+    <div class="brand-title">RAGHU BABA ONLINE SERVICE</div>
+    <div class="brand-subtitle">Digital Portal Login</div>
 
-<div class="luxury-container">
-    <div class="luxury-card">
-        <div class="brand-header">
-            <div class="brand-logo">YASH PORTAL Print</div>
-            <div class="brand-subtitle">Secure Access Portal</div>
-        </div>
-        
-        <form method="POST">
-            <div class="form-group">
-                <input type="text" name="username" placeholder="Email or Mobile Number" required autocomplete="username">
-                <div class="input-icon">✉️</div>
-            </div>
-            <div class="form-group">
-                <input type="password" name="password" placeholder="Password" required autocomplete="current-password">
-                <div class="input-icon">🔒</div>
-            </div>
-            <button type="submit" name="login" class="submit-btn">Authenticate</button>
-        </form>
-        
-        <div class="footer-links">
-            <a href="restpassword.php">Forgot password?</a> • 
-            <a href="createaccount">Create account</a>
-             <br><br><br>
-            <div class="text-center pt-2">
-    <a href="check-account-status" class="btn btn-outline-primary btn-sm">
-        <i class="fa fa-search me-1"></i> Active My Account
-    </a>
-</div>
-        </div>
+    <form onsubmit="handleDirectLogin(event)">
+      <div class="form-group">
+        <label>User ID / Mobile Number</label>
+        <input type="text" id="userBox" placeholder="User ID दर्ज करें (जैसे admin)" required autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="passBox" placeholder="Password दर्ज करें" required autocomplete="off">
+      </div>
+
+      <button type="submit" class="btn-login" id="submitBtn">लॉगिन करें</button>
+    </form>
+
+    <div class="help-box">
+      WhatsApp सहायता: <strong>8207827581</strong>
     </div>
-</div>
+  </div>
 
-<!---<script>
-// Create floating particles
-const container = document.getElementById('particles');
-for(let i=0;i<30;i++){
-    const p=document.createElement('div');
-    p.className='particle';
-    const size=Math.random()*10+3;
-    p.style.width=p.style.height=size+'px';
-    p.style.left=Math.random()*100+'%';
-    p.style.top=110+Math.random()*30+'%';
-    p.style.animationDuration=(10+Math.random()*20)+'s';
-    container.appendChild(p);
-}
-
-// Show WhatsApp ban notice popup on page load
-Swal.fire({
-    icon: 'info',
-    title: 'WhatsApp Ban Notice',
-    html: 'Mera WhatsApp ban ho gaya hai.<br>Unban hone me <b>24 hours</b> lagenge.<br><br>Agar koi jankari chahiye to hme mail kre:<br><a href="mailto:support@rekhaprint.in">support@rekhaprint.in</a>',
-    confirmButtonText: 'OK',
-    allowOutsideClick: false
-});
-</script>---->
-
-</body>
-</html>
+  <!-- 2. DASHBOARD VIEW (लॉगिन होते ही यह दिखेगा) -->
+  <div id="dashboardView">
+    <h2 style="color: #16a34a; margin-bottom: 10px;">🎉 लॉगिन सफल रहा!</h2>
+    <p style="font-size: 14px; color: #334155; margin-bottom: 15px;">स्वागत है: <strong id="welcomeUser"></strong></p>
+    <div style="background: #f1f5f9; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+      <p style="font-size: 13px; color: #475569;">पोर्टल डैशबोर्ड सक्रिय हो चुका है।</
