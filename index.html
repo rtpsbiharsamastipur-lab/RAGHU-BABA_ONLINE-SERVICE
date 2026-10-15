@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RAGHU BABA ONLINE SERVICE - B2B Digital Portal</title>
   
-  <!-- Firebase SDKs -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
   <style>
     :root {
-      --primary-gradient: linear-gradient(135deg, #ff9933, #ffffff, #138808);
+      --primary-grad: linear-gradient(135deg, #ff9933, #ffffff, #138808);
       --dark-blue: #0f172a;
       --accent: #2563eb;
       --success: #16a34a;
-      --bg: #f8fafc;
+      --bg: #f1f5f9;
       --card-bg: #ffffff;
       --text: #1e293b;
       --border: #cbd5e1;
@@ -24,7 +24,7 @@
     body { background-color: var(--bg); color: var(--text); min-height: 100vh; }
     
     header { 
-      background: var(--primary-gradient); 
+      background: var(--primary-grad); 
       border-bottom: 5px solid #138808;
       padding: 0.8rem 2rem; 
       display: flex; 
@@ -32,18 +32,18 @@
       align-items: center;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
     }
-    .header-left, .header-right { display: flex; align-items: center; gap: 1rem; }
-    .header-logo { height: 65px; object-fit: contain; background: white; padding: 3px; border-radius: 50%; border: 2px solid #ff9933; }
-    .header-logo-csc { height: 60px; object-fit: contain; background: white; padding: 5px; border-radius: 8px; border: 2px solid #0056b3; }
-    .header-center { text-align: center; flex-grow: 1; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-    .header-center h1 { font-size: 1.8rem; font-weight: 800; color: #060606; letter-spacing: 1px; }
+    .header-left, .header-right { display: flex; align-items: center; }
+    .header-logo { height: 60px; background: white; padding: 4px; border-radius: 50%; border: 2px solid #ff9933; }
+    .header-logo-csc { height: 55px; background: white; padding: 5px; border-radius: 6px; border: 2px solid #0056b3; }
+    .header-center { text-align: center; flex-grow: 1; }
+    .header-center h1 { font-size: 1.8rem; font-weight: 800; color: #060606; }
     .header-center p { font-size: 0.85rem; color: #1e293b; font-weight: 700; margin-top: 2px; }
     
-    .ticker-bar { background: #dc2626; color: white; padding: 0.4rem 1rem; font-size: 0.85rem; font-weight: bold; overflow: hidden; }
+    .ticker-bar { background: #dc2626; color: white; padding: 0.4rem 1rem; font-size: 0.85rem; font-weight: bold; }
 
-    .user-bar { background: var(--dark-blue); color: white; padding: 0.5rem 2rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+    .user-bar { background: var(--dark-blue); color: white; padding: 0.6rem 2rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; }
     .wallet-badge { background: #1e293b; border: 1px solid #334155; padding: 0.3rem 0.8rem; border-radius: 6px; font-weight: bold; color: #4ade80; }
-    .btn-exit { background: #dc2626; border: none; color: white; padding: 0.3rem 0.7rem; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    .btn-exit { background: #dc2626; border: none; color: white; padding: 0.35rem 0.8rem; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
     .container { max-width: 1200px; margin: 1.5rem auto; padding: 0 1rem; }
     
@@ -69,21 +69,191 @@
       border: 1px solid var(--border);
       box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
     }
-    .service-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+    .service-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
     
-    .sc-panfind { border-top: 5px solid #0284c7; background: linear-gradient(to bottom, #e0f2fe, #ffffff); }
-    .sc-pandetails { border-top: 5px solid #059669; background: linear-gradient(to bottom, #d1fae5, #ffffff); }
-    .sc-pan { border-top: 5px solid #1e3a8a; background: linear-gradient(to bottom, #f0f4ff, #ffffff); }
-    .sc-aadhaar { border-top: 5px solid #ff9933; background: linear-gradient(to bottom, #fff7ed, #ffffff); }
-    .sc-voter { border-top: 5px solid #138808; background: linear-gradient(to bottom, #f0fdf4, #ffffff); }
-    .sc-kisan { border-top: 5px solid #15803d; background: linear-gradient(to bottom, #f0fdf4, #ffffff); }
-    .sc-ayushman { border-top: 5px solid #fbbf24; background: linear-gradient(to bottom, #fefef2, #ffffff); }
-    .sc-dl { border-top: 5px solid #dc2626; background: linear-gradient(to bottom, #fef2f2, #ffffff); }
-    .sc-rtps { border-top: 5px solid #8b5cf6; background: linear-gradient(to bottom, #faf5ff, #ffffff); }
+    .sc-panfind { border-top: 5px solid #0284c7; background: #f0f9ff; }
+    .sc-pandetails { border-top: 5px solid #059669; background: #ecfdf5; }
+    .sc-pan { border-top: 5px solid #1e3a8a; background: #eff6ff; }
+    .sc-aadhaar { border-top: 5px solid #ff9933; background: #fff7ed; }
+    .sc-voter { border-top: 5px solid #138808; background: #f0fdf4; }
+    .sc-kisan { border-top: 5px solid #15803d; background: #f0fdf4; }
+    .sc-ayushman { border-top: 5px solid #fbbf24; background: #fffbeb; }
+    .sc-rtps { border-top: 5px solid #8b5cf6; background: #faf5ff; }
 
     .service-card h3 { font-size: 1.15rem; color: #0f172a; margin-bottom: 0.5rem; font-weight: bold; }
     .service-card p { font-size: 0.85rem; color: #475569; min-height: 2.5rem; line-height: 1.3; }
     .card-footer { margin-top: 1rem; text-align: right; font-weight: bold; font-size: 0.85rem; color: var(--accent); }
 
     .modal-work { display: none; background: var(--card-bg); border-top: 5px solid var(--accent); border-radius: 8px; padding: 2rem; margin-top: 1.5rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-    .modal-work h2 { font-
+    .modal-work h2 { font-size: 1.3rem; margin-bottom: 1.2rem; color: #1e3a8a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; }
+    
+    #adminMasterSection { border-top: 5px solid #ea580c; background: #fff7ed; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; }
+    .table-container { width: 100%; overflow-x: auto; margin-top: 0.8rem; background: white; padding: 0.5rem; border-radius: 6px; border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th, td { border: 1px solid #cbd5e1; padding: 0.6rem; text-align: left; }
+    th { background: #f8fafc; }
+
+    #printReceiptArea { display: none; background: white; padding: 1.5rem; border: 2px dashed #0f172a; border-radius: 6px; max-width: 600px; margin: 1.5rem auto; }
+    .receipt-header { text-align: center; border-bottom: 1px solid #000; padding-bottom: 0.5rem; margin-bottom: 1rem; }
+    .receipt-row { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <img src="https://pmkisan.gov.in/images/pmkisan_logo.png" alt="Logo" class="header-logo" onerror="this.style.display='none'">
+    </div>
+    <div class="header-center">
+      <h1>RAGHU BABA ONLINE SERVICE</h1>
+      <p>ALL DIGITAL SERVICES AT ONE PLACE • भारत सरकार की डिजिटल सेवाएँ</p>
+    </div>
+    <div class="header-right">
+      <img src="https://digitalseva.csc.gov.in/assets/images/csc-logo.png" alt="CSC" class="header-logo-csc" onerror="this.style.display='none'">
+    </div>
+  </header>
+
+  <div class="ticker-bar">
+    <marquee scrollamount="4">🔔 सूचना: PAN Find (₹30) और PAN Details (₹10) सेवाएँ पोर्टल पर सक्रिय हैं। 🔔</marquee>
+  </div>
+
+  <div class="user-bar" id="topBar" style="display: none;">
+    <div class="wallet-badge" id="userWallet">Wallet: ₹0.00</div>
+    <div>नमस्ते, <span id="userName" style="font-weight: bold; color: #fbbf24;"></span></div>
+    <button class="btn-exit" onclick="userLogout()">लॉगआउट</button>
+  </div>
+
+  <!-- Login Box -->
+  <div class="container" id="loginWrapper">
+    <div id="loginPanel">
+      <h2 style="text-align: center; margin-bottom: 0.4rem; color: #1e3a8a;">डिजिटल पोर्टल लॉगिन</h2>
+      <p style="text-align: center; font-size: 0.8rem; color: #64748b; margin-bottom: 1.5rem;">Raghu Baba Digital Networks (Cloud Connected)</p>
+      
+      <div class="input-group">
+        <label>यूज़र ID / Mobile</label>
+        <input type="text" id="authUserId" placeholder="अपनी ID दर्ज करें">
+      </div>
+      <div class="input-group">
+        <label>पासवर्ड</label>
+        <input type="password" id="authUserPass" placeholder="पासवर्ड दर्ज करें">
+      </div>
+      <button class="btn-submit" onclick="executeLogin()">पोर्टल में प्रवेश करें</button>
+    </div>
+  </div>
+
+  <!-- Main Work Area -->
+  <div class="container dashboard-view" id="mainDashboard">
+
+    <!-- Admin Section -->
+    <div id="adminMasterSection" style="display: none;">
+      <h3 style="margin-bottom: 0.8rem; font-size: 1.1rem; color: #c2410c;">🛠️ क्लाउड एडमिन कंसोल</h3>
+      <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 1rem;">
+        <input type="text" id="admRetName" placeholder="दुकानदार का नाम" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
+        <input type="text" id="admRetId" placeholder="User ID / Mobile" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
+        <input type="text" id="admRetPass" placeholder="Password" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
+        <input type="number" id="admRetBal" placeholder="Wallet ₹" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; width: 100px;">
+        <button onclick="createNewRetailerAccount()" style="background: var(--success); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: bold;">ID बनाएँ</button>
+      </div>
+      <div id="retailerListDisplay" style="margin-bottom: 1.5rem; font-size: 0.85rem; background: white; padding: 0.8rem; border-radius: 6px; border: 1px solid var(--border);">दुकानदार सूची लोड हो रही है...</div>
+
+      <h4 style="color: #0284c7; margin-bottom: 0.5rem;">📋 PAN Find Requests (चार्ज: ₹30)</h4>
+      <div class="table-container" style="margin-bottom: 1.5rem;">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Retailer</th>
+              <th>Customer Name</th>
+              <th>Aadhaar</th>
+              <th>DOB</th>
+              <th>Status / PAN</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminPanFindTableBody"><tr><td colspan="7">कोई रिक्वेस्ट नहीं है</td></tr></tbody>
+        </table>
+      </div>
+
+      <h4 style="color: #059669; margin-bottom: 0.5rem;">📋 PAN Details Requests (चार्ज: ₹10)</h4>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Retailer</th>
+              <th>PAN Number</th>
+              <th>Mobile</th>
+              <th>Status / Details</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminPanDetailsTableBody"><tr><td colspan="6">कोई रिक्वेस्ट नहीं है</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Services Grid -->
+    <h2 class="section-title"><span>📂 मुख्य डिजिटल सेवाएँ</span> <span>Cloud Database Active</span></h2>
+    <div class="grid-menu">
+      <div class="service-card sc-panfind" onclick="openWorkModule('pan_find')">
+        <h3>🔍 PAN Find Service</h3>
+        <p>खोया हुआ पैन नंबर प्राप्त करें। (शुल्क: ₹30)</p>
+        <div class="card-footer">रिक्वेस्ट भेजें ➔</div>
+      </div>
+
+      <div class="service-card sc-pandetails" onclick="openWorkModule('pan_details')">
+        <h3>📄 PAN Details Service</h3>
+        <p>पैन नंबर से पूरा विवरण निकालें। (शुल्क: ₹10)</p>
+        <div class="card-footer">विवरण खोजें ➔</div>
+      </div>
+
+      <div class="service-card sc-pan" onclick="openWorkModule('pan_apply')">
+        <h3>PAN Apply (नया पैन कार्ड)</h3>
+        <p>नया पैन कार्ड आवेदन व डिजिटल रसीद। (शुल्क: ₹107)</p>
+        <div class="card-footer">ओपन करें ➔</div>
+      </div>
+      
+      <div class="service-card sc-aadhaar" onclick="window.open('https://myaadhaar.uidai.gov.in/', '_blank')">
+        <h3>Aadhaar Services</h3>
+        <p>आधार डाउनलोड, PVC कार्ड ऑर्डर और UIDAI पोर्टल।</p>
+        <div class="card-footer">पोर्टल खोलें ➔</div>
+      </div>
+
+      <div class="service-card sc-voter" onclick="window.open('https://voters.eci.gov.in/', '_blank')">
+        <h3>Voter ID (NVSP)</h3>
+        <p>नया वोटर कार्ड, सुधार और पहचान पत्र डाउनलोड।</p>
+        <div class="card-footer">पोर्टल खोलें ➔</div>
+      </div>
+
+      <div class="service-card sc-kisan" onclick="window.open('https://pmkisan.gov.in/', '_blank')">
+        <h3>PM Kisan</h3>
+        <p>किसान सम्मान निधि केवाईसी एवं बेनिफिशियरी स्टेटस।</p>
+        <div class="card-footer">पोर्टल खोलें ➔</div>
+      </div>
+
+      <div class="service-card sc-ayushman" onclick="window.open('https://beneficiary.nha.gov.in/', '_blank')">
+        <h3>Ayushman Bharat</h3>
+        <p>पात्रता जाँच, नया आयुष्मान कार्ड और डाउनलोड।</p>
+        <div class="card-footer">पोर्टल खोलें ➔</div>
+      </div>
+
+      <div class="service-card sc-rtps" onclick="window.open('https://serviceonline.bihar.gov.in/', '_blank')">
+        <h3>RTPS बिहार</h3>
+        <p>जाति, आय, निवास और ईडब्ल्यूएस ऑनलाइन सेवा।</p>
+        <div class="card-footer">पोर्टल खोलें ➔</div>
+      </div>
+    </div>
+
+    <!-- PAN Find Module -->
+    <div class="modal-work" id="panFindModule">
+      <h2>🔍 PAN Find By Aadhaar (चार्ज: ₹30)</h2>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="input-group">
+          <label>ग्राहक का नाम</label>
+          <input type="text" id="pfCustName" placeholder="आधार के अनुसार नाम">
+        </div>
+        <div class="input-group">
+          <label>आधार नंबर</label>
+          <input type="text" id="pfCustAadhaar" placeholder="12 अंकों का आधार नंबर">
+        </div>
+        <div class="input
