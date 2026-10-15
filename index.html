@@ -21,7 +21,7 @@
     .ticker { background: #dc2626; color: white; padding: 6px 12px; font-size: 13px; font-weight: bold; }
     
     .user-bar { background: #0f172a; color: white; padding: 10px 20px; display: none; justify-content: space-between; align-items: center; font-size: 14px; }
-    .wallet-pill { background: #1e3a8a; padding: 5px 12px; border-radius: 4px; color: #4ade80; font-weight: bold; }
+    .wallet-pill { background: #1e3a8a; padding: 5px 12px; border-radius: 4px; color: #4ade80; font-weight: bold; cursor: pointer; }
     .btn-exit { background: #dc2626; color: white; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
     .main-wrap { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
@@ -46,6 +46,7 @@
     .card p { font-size: 12px; color: #64748b; line-height: 1.4; min-height: 34px; }
     .card .link-text { margin-top: 10px; font-size: 12px; font-weight: bold; color: #2563eb; text-align: right; }
 
+    .c-qr { border-top: 4px solid #16a34a; background: #f0fdf4; }
     .c-pf { border-top: 4px solid #0284c7; background: #f0f9ff; }
     .c-pd { border-top: 4px solid #059669; background: #ecfdf5; }
     .c-pa { border-top: 4px solid #1e3a8a; background: #eff6ff; }
@@ -67,6 +68,10 @@
     
     #receiptBox { display: none; background: white; border: 2px dashed #0f172a; padding: 20px; max-width: 500px; margin: 20px auto; border-radius: 6px; }
     .rcpt-line { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
+
+    /* QR Payment Area */
+    .qr-container { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; margin: 15px 0; }
+    #qrImage { width: 190px; height: 190px; margin: 10px 0; border: 2px solid #0f172a; padding: 5px; background: white; }
   </style>
 </head>
 <body>
@@ -77,11 +82,11 @@
   </header>
 
   <div class="ticker">
-    <marquee scrollamount="4">🔔 सूचना: PAN Find (₹30) और PAN Details (₹10) सेवाएँ पोर्टल पर सक्रिय हैं। 🔔</marquee>
+    <marquee scrollamount="4">🔔 सूचना: QR कोड से ऑटोमैटिक वॉलेट रिचार्ज चालू है (न्यूनतम रिचार्ज ₹100)। पेमेंट के बाद तुरंत 12 अंकों का UTR सबमिट करें। 🔔</marquee>
   </div>
 
   <div class="user-bar" id="navBar">
-    <div class="wallet-pill" id="wBadge">Wallet: ₹0.00</div>
+    <div class="wallet-pill" id="wBadge" onclick="openModule('recharge')">Wallet: ₹0.00 ➕ रिचार्ज</div>
     <div>उपयोगकर्ता: <strong id="uBadge" style="color: #fbbf24;"></strong></div>
     <button class="btn-exit" onclick="doLogout()">लॉगआउट</button>
   </div>
@@ -109,7 +114,9 @@
       
       <!-- ADMIN AREA -->
       <div id="adminBox" style="display: none;">
-        <h3 style="color: #c2410c; font-size: 15px;">🛠️ मुख्य एडमिन कंसोल - नया दुकानदार जोड़ें</h3>
+        <h3 style="color: #c2410c; font-size: 15px;">🛠️ मुख्य एडमिन कंसोल</h3>
+        
+        <!-- Add Retailer -->
         <div class="admin-form">
           <input type="text" id="aName" placeholder="दुकानदार का नाम">
           <input type="text" id="aId" placeholder="User ID / Mobile">
@@ -119,7 +126,17 @@
         </div>
         <div id="adminRetailerList" style="background: white; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12px; margin-bottom: 12px;">दुकानदार सूची लोड हो रही है...</div>
 
-        <h4 style="color: #0284c7; margin-top: 10px;">📋 PAN Find Requests (चार्ज: ₹30)</h4>
+        <!-- Wallet Recharge Approval Section -->
+        <h4 style="color: #16a34a; margin-top: 15px;">💰 Wallet Recharge Requests (स्वीकृत करें)</h4>
+        <table>
+          <thead>
+            <tr><th>Request ID</th><th>Retailer ID</th><th>दुकानदार</th><th>राशि (₹)</th><th>UTR / Ref No</th><th>Status</th><th>Action</th></tr>
+          </thead>
+          <tbody id="aTableRecharge"><tr><td colspan="7">कोई रिचार्ज रिक्वेस्ट नहीं है</td></tr></tbody>
+        </table>
+
+        <!-- PAN Find Section -->
+        <h4 style="color: #0284c7; margin-top: 15px;">📋 PAN Find Requests (चार्ज: ₹30)</h4>
         <table>
           <thead>
             <tr><th>ID</th><th>Retailer</th><th>नाम</th><th>आधार नंबर</th><th>DOB</th><th>Status / PAN</th><th>Action</th></tr>
@@ -127,6 +144,7 @@
           <tbody id="aTablePf"><tr><td colspan="7">कोई रिक्वेस्ट नहीं है</td></tr></tbody>
         </table>
 
+        <!-- PAN Details Section -->
         <h4 style="color: #059669; margin-top: 15px;">📋 PAN Details Requests (चार्ज: ₹10)</h4>
         <table>
           <thead>
@@ -139,6 +157,12 @@
       <!-- SERVICES -->
       <div class="dash-head">मुख्य डिजिटल सेवाएँ</div>
       <div class="grid">
+        <div class="card c-qr" onclick="openModule('recharge')">
+          <h3>💳 Wallet Recharge (QR Code)</h3>
+          <p>QR कोड स्कैन करें, न्यूनतम ₹100 पेमेंट करें और वॉलेट पॉइंट्स पाएँ।</p>
+          <div class="link-text" style="color: #16a34a;">रिचार्ज करें ➔</div>
+        </div>
+
         <div class="card c-pf" onclick="openModule('pf')">
           <h3>🔍 PAN Find Service</h3>
           <p>आधार नंबर से खोया हुआ पैन नंबर प्राप्त करें। (शुल्क: ₹30)</p>
@@ -175,17 +199,43 @@
           <div class="link-text">पोर्टल खोलें ➔</div>
         </div>
 
-        <div class="card c-oth" onclick="window.open('https://beneficiary.nha.gov.in/', '_blank')">
-          <h3>Ayushman Bharat</h3>
-          <p>पात्रता जाँच, नया आयुष्मान कार्ड एवं डाउनलोड।</p>
-          <div class="link-text">पोर्टल खोलें ➔</div>
-        </div>
-
         <div class="card c-oth" onclick="window.open('https://serviceonline.bihar.gov.in/', '_blank')">
           <h3>RTPS बिहार</h3>
           <p>जाति, आय, निवास एवं अन्य ऑनलाइन प्रमाण-पत्र।</p>
           <div class="link-text">पोर्टल खोलें ➔</div>
         </div>
+      </div>
+
+      <!-- MODULE: WALLET RECHARGE -->
+      <div class="module-box" id="modRecharge">
+        <h3 style="color: #16a34a; margin-bottom: 12px;">💳 QR कोड से वॉलेट रिचार्ज करें</h3>
+        <p style="font-size: 13px; color: #475569; margin-bottom: 12px;">न्यूनतम रिचार्ज राशि <strong>₹100</strong> है। राशि दर्ज करने पर PhonePe / Paytm / GPay QR कोड सामने आएगा।</p>
+        
+        <div style="max-width: 420px;">
+          <div class="field">
+            <label>रिचार्ज राशि (₹) [न्यूनतम ₹100]</label>
+            <input type="number" id="rechAmount" placeholder="उदा. 100, 200, 500, 1000" oninput="generateDynamicQR()">
+          </div>
+
+          <div class="qr-container" id="qrDisplayBox" style="display: none;">
+            <p style="font-size: 13px; font-weight: bold; color: #1e3a8a;">PhonePe / Google Pay / Paytm से स्कैन करें</p>
+            <img id="qrImage" src="" alt="QR Code">
+            <p id="qrAmountLabel" style="font-size: 15px; font-weight: bold; color: #16a34a; margin-top: 4px;">कुल राशि: ₹0</p>
+            <p style="font-size: 11px; color: #64748b; margin-top: 4px;">UPI ID: 8207827581-3@ybl</p>
+          </div>
+
+          <div class="field" style="margin-top: 15px;">
+            <label>12 अंकों का UTR / Transaction Ref No</label>
+            <input type="text" id="rechUtr" placeholder="पेमेंट के बाद प्राप्त 12 अंकों का नंबर दर्ज करें" maxlength="16">
+          </div>
+          <button class="btn-submit" type="button" onclick="submitRechargeRequest()" style="background: #16a34a;">पेमेंट रिक्वेस्ट सबमिट करें</button>
+        </div>
+
+        <h4 style="margin-top: 25px; font-size: 13px;">मेरी वॉलेट रिचार्ज हिस्ट्री</h4>
+        <table>
+          <thead><tr><th>Request ID</th><th>तारीख</th><th>राशि</th><th>UTR Number</th><th>Status</th></tr></thead>
+          <tbody id="retRechargeBody"><tr><td colspan="5">कोई रिक्वेस्ट नहीं मिली।</td></tr></tbody>
+        </table>
       </div>
 
       <!-- MODULE: PAN FIND -->
@@ -259,19 +309,21 @@
     var allRetailers = {};
     var allPfReq = {};
     var allPdReq = {};
+    var allRecharges = {};
 
-    // 1. Direct Instant Event Listener
+    // Configured UPI Details
+    var MY_UPI_ID = "8207827581-3@ybl"; 
+    var MY_NAME = "Raghu Baba Online Service";
+    var MIN_RECHARGE = 100;
+
+    // Login Action
     document.getElementById('submitBtn').addEventListener('click', function(e) {
       e.preventDefault();
       var u = (document.getElementById('uid').value || '').trim();
       var p = (document.getElementById('upw').value || '').trim();
 
-      if (!u || !p) {
-        alert('कृपया ID और पासवर्ड दर्ज करें!');
-        return;
-      }
+      if (!u || !p) return alert('कृपया ID और पासवर्ड दर्ज करें!');
 
-      // Master Admin direct bypass
       if (u === 'admin' && p === 'admin123') {
         curUser = { role: 'admin', name: 'Master Admin', wallet: 'अनलिमिटेड' };
         showDashboard();
@@ -279,7 +331,6 @@
         return;
       }
 
-      // Retailer Verification via Database
       fetch(FIREBASE_URL + "/retailers/" + u + ".json")
         .then(function(r) { return r.json(); })
         .then(function(d) {
@@ -292,7 +343,7 @@
             alert('गलत यूज़र ID या पासवर्ड!');
           }
         })
-        .catch(function(err) {
+        .catch(function() {
           alert('लॉगिन विफल! इंटरनेट कनेक्शन जाँचें।');
         });
     });
@@ -303,7 +354,7 @@
       document.getElementById('dashView').style.display = 'block';
 
       document.getElementById('uBadge').textContent = curUser.name;
-      document.getElementById('wBadge').textContent = curUser.role === 'admin' ? 'Master Admin' : 'Wallet: ₹' + curUser.wallet + '.00';
+      document.getElementById('wBadge').textContent = curUser.role === 'admin' ? 'Master Admin' : 'Wallet: ₹' + curUser.wallet + '.00 ➕ रिचार्ज';
 
       if (curUser.role === 'admin') {
         document.getElementById('adminBox').style.display = 'block';
@@ -323,6 +374,7 @@
     }
 
     function hideAllModules() {
+      document.getElementById('modRecharge').style.display = 'none';
       document.getElementById('modPf').style.display = 'none';
       document.getElementById('modPd').style.display = 'none';
       document.getElementById('modPa').style.display = 'none';
@@ -331,39 +383,93 @@
 
     function openModule(m) {
       hideAllModules();
+      if (m === 'recharge') { document.getElementById('modRecharge').style.display = 'block'; renderRetailerRecharges(); }
       if (m === 'pf') { document.getElementById('modPf').style.display = 'block'; renderRetailerPf(); }
       if (m === 'pd') { document.getElementById('modPd').style.display = 'block'; renderRetailerPd(); }
       if (m === 'pa') { document.getElementById('modPa').style.display = 'block'; }
     }
 
-    // Runs only after login
+    // Dynamic QR Generator with Minimum 100 Validation
+    function generateDynamicQR() {
+      var amtVal = document.getElementById('rechAmount').value.trim();
+      var qrBox = document.getElementById('qrDisplayBox');
+      var qrImg = document.getElementById('qrImage');
+      var qrAmtText = document.getElementById('qrAmountLabel');
+
+      var amt = parseFloat(amtVal);
+
+      if (amt && amt >= MIN_RECHARGE) {
+        var upiUrl = "upi://pay?pa=" + MY_UPI_ID + "&pn=" + encodeURIComponent(MY_NAME) + "&am=" + amt + "&cu=INR";
+        qrImg.src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(upiUrl);
+        qrAmtText.textContent = "कुल राशि: ₹" + amt;
+        qrBox.style.display = "flex";
+      } else {
+        qrBox.style.display = "none";
+      }
+    }
+
+    // Submit Recharge Request
+    function submitRechargeRequest() {
+      var amt = parseFloat(document.getElementById('rechAmount').value);
+      var utr = document.getElementById('rechUtr').value.trim();
+
+      if (!amt || isNaN(amt) || amt < MIN_RECHARGE) {
+        return alert('न्यूनतम रिचार्ज राशि ₹100 है! कृपया ₹100 या उससे अधिक दर्ज करें।');
+      }
+
+      if (!utr || utr.length < 8) {
+        return alert('कृपया सही 12 अंकों का UTR / Transaction No दर्ज करें!');
+      }
+
+      var reqId = 'RC' + Math.floor(100000 + Math.random() * 900000);
+      fetch(FIREBASE_URL + "/recharge_requests/" + reqId + ".json", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          retailerId: curUser.id || 'admin',
+          retailerName: curUser.name,
+          amount: amt,
+          utr: utr,
+          status: 'PENDING',
+          date: new Date().toLocaleDateString()
+        })
+      }).then(function() {
+        alert('रिचार्ज रिक्वेस्ट सबमिट हो गई! Admin द्वारा वेरीफाई होने पर बैलेंस वॉलेट में जुड़ जाएगा।');
+        document.getElementById('rechAmount').value = '';
+        document.getElementById('rechUtr').value = '';
+        document.getElementById('qrDisplayBox').style.display = 'none';
+        startDataSync();
+      });
+    }
+
+    // Sync Data
     function startDataSync() {
-      fetch(FIREBASE_URL + "/retailers.json")
-        .then(function(r) { return r.json(); })
-        .then(function(d) {
-          allRetailers = d || {};
-          if (curUser && curUser.role === 'admin') renderAdminRetailers();
-          if (curUser && curUser.role === 'retailer' && allRetailers[curUser.id]) {
-            curUser.wallet = allRetailers[curUser.id].wallet;
-            document.getElementById('wBadge').textContent = 'Wallet: ₹' + curUser.wallet + '.00';
-          }
-        }).catch(function(){});
+      fetch(FIREBASE_URL + "/retailers.json").then(function(r){return r.json();}).then(function(d){
+        allRetailers = d || {};
+        if (curUser && curUser.role === 'admin') renderAdminRetailers();
+        if (curUser && curUser.role === 'retailer' && allRetailers[curUser.id]) {
+          curUser.wallet = allRetailers[curUser.id].wallet;
+          document.getElementById('wBadge').textContent = 'Wallet: ₹' + curUser.wallet + '.00 ➕ रिचार्ज';
+        }
+      }).catch(function(){});
 
-      fetch(FIREBASE_URL + "/pan_find_requests.json")
-        .then(function(r) { return r.json(); })
-        .then(function(d) {
-          allPfReq = d || {};
-          if (curUser && curUser.role === 'admin') renderAdminPf();
-          if (curUser && curUser.role === 'retailer') renderRetailerPf();
-        }).catch(function(){});
+      fetch(FIREBASE_URL + "/recharge_requests.json").then(function(r){return r.json();}).then(function(d){
+        allRecharges = d || {};
+        if (curUser && curUser.role === 'admin') renderAdminRecharges();
+        if (curUser && curUser.role === 'retailer') renderRetailerRecharges();
+      }).catch(function(){});
 
-      fetch(FIREBASE_URL + "/pan_details_requests.json")
-        .then(function(r) { return r.json(); })
-        .then(function(d) {
-          allPdReq = d || {};
-          if (curUser && curUser.role === 'admin') renderAdminPd();
-          if (curUser && curUser.role === 'retailer') renderRetailerPd();
-        }).catch(function(){});
+      fetch(FIREBASE_URL + "/pan_find_requests.json").then(function(r){return r.json();}).then(function(d){
+        allPfReq = d || {};
+        if (curUser && curUser.role === 'admin') renderAdminPf();
+        if (curUser && curUser.role === 'retailer') renderRetailerPf();
+      }).catch(function(){});
+
+      fetch(FIREBASE_URL + "/pan_details_requests.json").then(function(r){return r.json();}).then(function(d){
+        allPdReq = d || {};
+        if (curUser && curUser.role === 'admin') renderAdminPd();
+        if (curUser && curUser.role === 'retailer') renderRetailerPd();
+      }).catch(function(){});
     }
 
     function addRetailer() {
@@ -409,6 +515,60 @@
       }
     }
 
+    // Admin Approve Recharge
+    function renderAdminRecharges() {
+      var el = document.getElementById('aTableRecharge');
+      var keys = Object.keys(allRecharges);
+      if (!keys.length) { el.innerHTML = '<tr><td colspan="7">कोई रिचार्ज रिक्वेस्ट नहीं है</td></tr>'; return; }
+      el.innerHTML = keys.map(function(k) {
+        var it = allRecharges[k];
+        var st = it.status === 'SUCCESS' ? '<strong style="color:green;">सफल (APPROVED)</strong>' : '<span style="color:orange;">PENDING</span>';
+        var actBtn = it.status === 'SUCCESS' ? '<span>हो चुका है</span>' : '<button onclick="approveRecharge(\'' + k + '\')" style="background:#16a34a; color:white; border:none; padding:3px 8px; border-radius:3px; cursor:pointer; font-weight:bold;">स्वीकृत करें</button>';
+        return '<tr><td>' + k + '</td><td>' + it.retailerId + '</td><td>' + it.retailerName + '</td><td>₹' + it.amount + '</td><td>' + it.utr + '</td><td>' + st + '</td><td>' + actBtn + '</td></tr>';
+      }).join('');
+    }
+
+    function approveRecharge(k) {
+      var req = allRecharges[k];
+      if (!req || req.status === 'SUCCESS') return;
+
+      if (confirm('क्या आप ₹' + req.amount + ' दुकानदार ' + req.retailerName + ' के वॉलेट में जोड़ना चाहते हैं?')) {
+        fetch(FIREBASE_URL + "/retailers/" + req.retailerId + "/wallet.json")
+          .then(function(r){ return r.json(); })
+          .then(function(curBal){
+            var updatedBal = (parseFloat(curBal) || 0) + parseFloat(req.amount);
+            return fetch(FIREBASE_URL + "/retailers/" + req.retailerId + "/wallet.json", {
+              method: "PUT",
+              body: JSON.stringify(updatedBal)
+            });
+          })
+          .then(function(){
+            return fetch(FIREBASE_URL + "/recharge_requests/" + k + "/status.json", {
+              method: "PUT",
+              body: JSON.stringify("SUCCESS")
+            });
+          })
+          .then(function(){
+            alert('वॉलेट रिचार्ज स्वीकृत हो गया!');
+            startDataSync();
+          });
+      }
+    }
+
+    function renderRetailerRecharges() {
+      if (!curUser || curUser.role !== 'retailer') return;
+      var rows = [];
+      Object.keys(allRecharges).forEach(function(k) {
+        var it = allRecharges[k];
+        if (it.retailerId === curUser.id) {
+          var st = it.status === 'SUCCESS' ? '<strong style="color:green;">सफल (Approved)</strong>' : '<span style="color:orange;">प्रक्रिया में (Pending)</span>';
+          rows.push('<tr><td>' + k + '</td><td>' + (it.date || '-') + '</td><td>₹' + it.amount + '</td><td>' + it.utr + '</td><td>' + st + '</td></tr>');
+        }
+      });
+      document.getElementById('retRechargeBody').innerHTML = rows.length ? rows.join('') : '<tr><td colspan="5">कोई रिक्वेस्ट नहीं मिली।</td></tr>';
+    }
+
+    // PAN Find & Details
     function submitPf() {
       var name = document.getElementById('pfName').value.trim();
       var adr = document.getElementById('pfAadhaar').value.trim();
@@ -419,23 +579,15 @@
       if (adr.length !== 12) return alert('आधार नंबर 12 अंकों का होना चाहिए!');
 
       if (curUser.role === 'retailer') {
-        if (curUser.wallet < 30) return alert('वॉलेट में न्यूनतम ₹30 होना चाहिए!');
-        fetch(FIREBASE_URL + "/retailers/" + curUser.id + "/wallet.json", {
-          method: "PUT",
-          body: JSON.stringify(curUser.wallet - 30)
-        });
+        if (curUser.wallet < 30) return alert('वॉलेट में न्यूनतम ₹30 होना चाहिए! पहले वॉलेट रिचार्ज करें।');
+        fetch(FIREBASE_URL + "/retailers/" + curUser.id + "/wallet.json", { method: "PUT", body: JSON.stringify(curUser.wallet - 30) });
       }
 
       var reqId = 'PF' + Math.floor(100000 + Math.random() * 900000);
       fetch(FIREBASE_URL + "/pan_find_requests/" + reqId + ".json", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          retailerId: curUser.id || 'admin',
-          retailerName: curUser.name,
-          name: name, aadhaar: adr, dob: dob, mobile: mob,
-          status: 'PENDING', pan: ''
-        })
+        body: JSON.stringify({ retailerId: curUser.id || 'admin', retailerName: curUser.name, name: name, aadhaar: adr, dob: dob, mobile: mob, status: 'PENDING', pan: '' })
       }).then(function() {
         alert('PAN Find रिक्वेस्ट दर्ज हो गई! (शुल्क ₹30 काटा गया)');
         document.getElementById('pfName').value = '';
@@ -453,23 +605,15 @@
       if (!pan || pan.length !== 10) return alert('10 अंकों का पैन नंबर भरें!');
 
       if (curUser.role === 'retailer') {
-        if (curUser.wallet < 10) return alert('वॉलेट में न्यूनतम ₹10 होना चाहिए!');
-        fetch(FIREBASE_URL + "/retailers/" + curUser.id + "/wallet.json", {
-          method: "PUT",
-          body: JSON.stringify(curUser.wallet - 10)
-        });
+        if (curUser.wallet < 10) return alert('वॉलेट में न्यूनतम ₹10 होना चाहिए! पहले वॉलेट रिचार्ज करें।');
+        fetch(FIREBASE_URL + "/retailers/" + curUser.id + "/wallet.json", { method: "PUT", body: JSON.stringify(curUser.wallet - 10) });
       }
 
       var reqId = 'PD' + Math.floor(100000 + Math.random() * 900000);
       fetch(FIREBASE_URL + "/pan_details_requests/" + reqId + ".json", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          retailerId: curUser.id || 'admin',
-          retailerName: curUser.name,
-          pan: pan, mobile: mob,
-          status: 'PENDING', details: ''
-        })
+        body: JSON.stringify({ retailerId: curUser.id || 'admin', retailerName: curUser.name, pan: pan, mobile: mob, status: 'PENDING', details: '' })
       }).then(function() {
         alert('PAN Details रिक्वेस्ट दर्ज हो गई! (शुल्क ₹10 काटा गया)');
         document.getElementById('pdPan').value = '';
