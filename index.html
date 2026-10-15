@@ -26,7 +26,7 @@
 
     .main-wrap { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
 
-    /* Login Form */
+    /* Login Box */
     #loginBox { max-width: 380px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-top: 5px solid #ff9933; }
     .field { margin-bottom: 15px; }
     .field label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; color: #334155; }
@@ -69,7 +69,66 @@
     #receiptBox { display: none; background: white; border: 2px dashed #0f172a; padding: 20px; max-width: 550px; margin: 20px auto; border-radius: 6px; }
     .rcpt-line { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
 
-    /* QR Payment Area */
+    /* QR Area */
     .qr-container { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; margin: 15px 0; }
     #qrImage { width: 190px; height: 190px; margin: 10px 0; border: 2px solid #0f172a; padding: 5px; background: white; }
-    .note-box { background: #fef2f2
+    .note-box { background: #fef2f2; border: 1.5px dashed #ef4444; color: #b91c1c; padding: 12px; border-radius: 6px; font-size: 13px; margin: 15px 0; line-height: 1.4; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>RAGHU BABA ONLINE SERVICE</h1>
+    <p>ALL DIGITAL SERVICES AT ONE PLACE • भारत सरकार की डिजिटल सेवाएँ</p>
+  </header>
+
+  <div class="ticker">
+    <marquee scrollamount="4">🔔 सूचना: QR कोड वॉलेट रिचार्ज टेस्ट हेतु न्यूनतम ₹1 पर सक्रिय है! नई इंस्टेंट सेवाएँ पोर्टल पर जोड़ दी गई हैं। 🔔</marquee>
+  </div>
+
+  <div class="user-bar" id="navBar">
+    <div class="wallet-pill" id="wBadge" onclick="openModule('recharge')">Wallet: ₹0.00 ➕ रिचार्ज</div>
+    <div>उपयोगकर्ता: <strong id="uBadge" style="color: #fbbf24;"></strong></div>
+    <button class="btn-exit" onclick="doLogout()">लॉगआउट</button>
+  </div>
+
+  <div class="main-wrap">
+
+    <!-- LOGIN FORM -->
+    <div id="loginBox">
+      <h2 style="text-align: center; margin-bottom: 5px; color: #1e3a8a; font-size: 20px;">डिजिटल पोर्टल लॉगिन</h2>
+      <p style="text-align: center; font-size: 12px; color: #64748b; margin-bottom: 20px;">Raghu Baba Digital Networks</p>
+      
+      <div class="field">
+        <label>यूज़र ID / Mobile</label>
+        <input type="text" id="uid" placeholder="User ID दर्ज करें" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>पासवर्ड</label>
+        <input type="password" id="upw" placeholder="Password दर्ज करें" autocomplete="off">
+      </div>
+      <button class="btn-submit" type="button" id="submitBtn">पोर्टल में प्रवेश करें</button>
+    </div>
+
+    <!-- MAIN DASHBOARD -->
+    <div id="dashView">
+      
+      <!-- ADMIN AREA -->
+      <div id="adminBox" style="display: none;">
+        <h3 style="color: #c2410c; font-size: 15px;">🛠️ मुख्य एडमिन कंसोल</h3>
+        
+        <div class="admin-form">
+          <input type="text" id="aName" placeholder="दुकानदार का नाम">
+          <input type="text" id="aId" placeholder="User ID / Mobile">
+          <input type="text" id="aPw" placeholder="Password">
+          <input type="number" id="aBal" placeholder="Wallet ₹" style="width: 90px;">
+          <button class="btn-green" type="button" onclick="addRetailer()">दुकानदार बनाएँ</button>
+        </div>
+        <div id="adminRetailerList" style="background: white; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12px; margin-bottom: 12px;">दुकानदार सूची लोड हो रही है...</div>
+
+        <h4 style="color: #16a34a; margin-top: 15px;">💰 Wallet Recharge Requests</h4>
+        <table>
+          <thead>
+            <tr><th>Request ID</th><th>Retailer ID</th><th>दुकानदार</th><th>राशि (₹)</th><th>UTR / Ref No</th><th>Status</th><th>Action</th></tr>
+          </thead>
+          <tbody id="aTableRecharge"><tr><td colspan="7">कोई रिचार्ज रिक्वेस्ट
