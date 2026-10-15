@@ -27,10 +27,11 @@
     .main-wrap { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
 
     /* Login Form */
-    #loginBox { max-width: 400px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-top: 5px solid #ff9933; }
+    #loginBox { max-width: 380px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-top: 5px solid #ff9933; }
     .field { margin-bottom: 15px; }
     .field label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; color: #334155; }
     .field input { width: 100%; padding: 10px; border: 1.5px solid #cbd5e1; border-radius: 5px; font-size: 15px; outline: none; }
+    .field input:focus { border-color: #2563eb; }
     .btn-submit { width: 100%; background: #2563eb; color: white; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
     .btn-submit:hover { background: #1d4ed8; }
 
@@ -94,13 +95,13 @@
       
       <div class="field">
         <label>यूज़र ID / Mobile</label>
-        <input type="text" id="uid" placeholder="ID दर्ज करें" value="admin">
+        <input type="text" id="uid" placeholder="User ID दर्ज करें" autocomplete="off">
       </div>
       <div class="field">
         <label>पासवर्ड</label>
-        <input type="password" id="upw" placeholder="Password दर्ज करें" value="admin123">
+        <input type="password" id="upw" placeholder="Password दर्ज करें" autocomplete="off">
       </div>
-      <button class="btn-submit" type="button" onclick="doLogin()">पोर्टल में प्रवेश करें</button>
+      <button class="btn-submit" type="button" id="submitBtn">पोर्टल में प्रवेश करें</button>
     </div>
 
     <!-- MAIN DASHBOARD -->
@@ -259,24 +260,26 @@
     var allPfReq = {};
     var allPdReq = {};
 
-    function doLogin() {
+    // 1. Direct Instant Event Listener
+    document.getElementById('submitBtn').addEventListener('click', function(e) {
+      e.preventDefault();
       var u = (document.getElementById('uid').value || '').trim();
       var p = (document.getElementById('upw').value || '').trim();
 
+      if (!u || !p) {
+        alert('कृपया ID और पासवर्ड दर्ज करें!');
+        return;
+      }
+
+      // Master Admin direct bypass
       if (u === 'admin' && p === 'admin123') {
         curUser = { role: 'admin', name: 'Master Admin', wallet: 'अनलिमिटेड' };
         showDashboard();
-        syncData();
+        startDataSync();
         return;
       }
 
-      if (allRetailers[u] && allRetailers[u].pass === p) {
-        curUser = { role: 'retailer', id: u, name: allRetailers[u].name, wallet: allRetailers[u].wallet };
-        showDashboard();
-        syncData();
-        return;
-      }
-
+      // Retailer Verification via Database
       fetch(FIREBASE_URL + "/retailers/" + u + ".json")
         .then(function(r) { return r.json(); })
         .then(function(d) {
@@ -284,15 +287,15 @@
             allRetailers[u] = d;
             curUser = { role: 'retailer', id: u, name: d.name, wallet: d.wallet };
             showDashboard();
-            syncData();
+            startDataSync();
           } else {
             alert('गलत यूज़र ID या पासवर्ड!');
           }
         })
-        .catch(function() {
-          alert('गलत यूज़र ID या पासवर्ड!');
+        .catch(function(err) {
+          alert('लॉगिन विफल! इंटरनेट कनेक्शन जाँचें।');
         });
-    }
+    });
 
     function showDashboard() {
       document.getElementById('loginBox').style.display = 'none';
@@ -311,6 +314,8 @@
 
     function doLogout() {
       curUser = null;
+      document.getElementById('uid').value = '';
+      document.getElementById('upw').value = '';
       document.getElementById('loginBox').style.display = 'block';
       document.getElementById('navBar').style.display = 'none';
       document.getElementById('dashView').style.display = 'none';
@@ -331,7 +336,8 @@
       if (m === 'pa') { document.getElementById('modPa').style.display = 'block'; }
     }
 
-    function syncData() {
+    // Runs only after login
+    function startDataSync() {
       fetch(FIREBASE_URL + "/retailers.json")
         .then(function(r) { return r.json(); })
         .then(function(d) {
@@ -363,4 +369,204 @@
     function addRetailer() {
       var name = document.getElementById('aName').value.trim();
       var id = document.getElementById('aId').value.trim();
-      var pass
+      var pass = document.getElementById('aPw').value.trim();
+      var bal = parseFloat(document.getElementById('aBal').value) || 0;
+
+      if (!name || !id || !pass) return alert('सभी फ़ील्ड भरें!');
+
+      fetch(FIREBASE_URL + "/retailers/" + id + ".json", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: name, pass: pass, wallet: bal })
+      }).then(function() {
+        alert('दुकानदार सेव हो गया!');
+        document.getElementById('aName').value = '';
+        document.getElementById('aId').value = '';
+        document.getElementById('aPw').value = '';
+        document.getElementById('aBal').value = '';
+        startDataSync();
+      });
+    }
+
+    function renderAdminRetailers() {
+      var el = document.getElementById('adminRetailerList');
+      var keys = Object.keys(allRetailers);
+      if (!keys.length) { el.innerHTML = 'कोई दुकानदार नहीं मिला।'; return; }
+      el.innerHTML = '<strong>सक्रिय दुकानदार:</strong> ' + keys.map(function(k) {
+        var r = allRetailers[k];
+        return '🔑 ' + r.name + ' (' + k + ') - ₹' + r.wallet + ' <button onclick="topUp(\'' + k + '\')" style="padding:2px 5px; cursor:pointer;">+ बैलेंस</button>';
+      }).join(' | ');
+    }
+
+    function topUp(id) {
+      var amt = prompt('राशि दर्ज करें:', '500');
+      if (amt && !isNaN(amt)) {
+        var newB = (parseFloat(allRetailers[id].wallet) || 0) + parseFloat(amt);
+        fetch(FIREBASE_URL + "/retailers/" + id + "/wallet.json", {
+          method: "PUT",
+          body: JSON.stringify(newB)
+        }).then(function() { startDataSync(); });
+      }
+    }
+
+    function submitPf() {
+      var name = document.getElementById('pfName').value.trim();
+      var adr = document.getElementById('pfAadhaar').value.trim();
+      var dob = document.getElementById('pfDob').value;
+      var mob = document.getElementById('pfMob').value.trim();
+
+      if (!name || !adr || !dob) return alert('नाम, आधार नंबर और जन्मतिथि दर्ज करें!');
+      if (adr.length !== 12) return alert('आधार नंबर 12 अंकों का होना चाहिए!');
+
+      if (curUser.role === 'retailer') {
+        if (curUser.wallet < 30) return alert('वॉलेट में न्यूनतम ₹30 होना चाहिए!');
+        fetch(FIREBASE_URL + "/retailers/" + curUser.id + "/wallet.json", {
+          method: "PUT",
+          body: JSON.stringify(curUser.wallet - 30)
+        });
+      }
+
+      var reqId = 'PF' + Math.floor(100000 + Math.random() * 900000);
+      fetch(FIREBASE_URL + "/pan_find_requests/" + reqId + ".json", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          retailerId: curUser.id || 'admin',
+          retailerName: curUser.name,
+          name: name, aadhaar: adr, dob: dob, mobile: mob,
+          status: 'PENDING', pan: ''
+        })
+      }).then(function() {
+        alert('PAN Find रिक्वेस्ट दर्ज हो गई! (शुल्क ₹30 काटा गया)');
+        document.getElementById('pfName').value = '';
+        document.getElementById('pfAadhaar').value = '';
+        document.getElementById('pfDob').value = '';
+        document.getElementById('pfMob').value = '';
+        startDataSync();
+      });
+    }
+
+    function submitPd() {
+      var pan = document.getElementById('pdPan').value.trim().toUpperCase();
+      var mob = document.getElementById('pdMob').value.trim();
+
+      if (!pan || pan.length !== 10) return alert('10 अंकों का पैन नंबर भरें!');
+
+      if (curUser.role === 'retailer') {
+        if (curUser.wallet < 10) return alert('वॉलेट में न्यूनतम ₹10 होना चाहिए!');
+        fetch(FIREBASE_URL + "/retailers/" + curUser.id + "/wallet.json", {
+          method: "PUT",
+          body: JSON.stringify(curUser.wallet - 10)
+        });
+      }
+
+      var reqId = 'PD' + Math.floor(100000 + Math.random() * 900000);
+      fetch(FIREBASE_URL + "/pan_details_requests/" + reqId + ".json", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          retailerId: curUser.id || 'admin',
+          retailerName: curUser.name,
+          pan: pan, mobile: mob,
+          status: 'PENDING', details: ''
+        })
+      }).then(function() {
+        alert('PAN Details रिक्वेस्ट दर्ज हो गई! (शुल्क ₹10 काटा गया)');
+        document.getElementById('pdPan').value = '';
+        document.getElementById('pdMob').value = '';
+        startDataSync();
+      });
+    }
+
+    function renderRetailerPf() {
+      if (!curUser || curUser.role !== 'retailer') return;
+      var rows = [];
+      Object.keys(allPfReq).forEach(function(k) {
+        var it = allPfReq[k];
+        if (it.retailerId === curUser.id) {
+          var st = it.status === 'SUCCESS' ? '<strong style="color:green;">' + it.pan + '</strong>' : '<span style="color:orange;">प्रक्रिया में (Pending)</span>';
+          rows.push('<tr><td>' + k + '</td><td>' + it.name + '</td><td>' + it.aadhaar + '</td><td>' + st + '</td></tr>');
+        }
+      });
+      document.getElementById('retPfBody').innerHTML = rows.length ? rows.join('') : '<tr><td colspan="4">कोई रिक्वेस्ट नहीं मिली।</td></tr>';
+    }
+
+    function renderRetailerPd() {
+      if (!curUser || curUser.role !== 'retailer') return;
+      var rows = [];
+      Object.keys(allPdReq).forEach(function(k) {
+        var it = allPdReq[k];
+        if (it.retailerId === curUser.id) {
+          var st = it.status === 'SUCCESS' ? '<strong style="color:green;">' + it.details + '</strong>' : '<span style="color:orange;">प्रक्रिया में (Pending)</span>';
+          rows.push('<tr><td>' + k + '</td><td>' + it.pan + '</td><td>' + st + '</td></tr>');
+        }
+      });
+      document.getElementById('retPdBody').innerHTML = rows.length ? rows.join('') : '<tr><td colspan="3">कोई रिक्वेस्ट नहीं मिली।</td></tr>';
+    }
+
+    function renderAdminPf() {
+      var el = document.getElementById('aTablePf');
+      var keys = Object.keys(allPfReq);
+      if (!keys.length) { el.innerHTML = '<tr><td colspan="7">कोई रिक्वेस्ट नहीं है</td></tr>'; return; }
+      el.innerHTML = keys.map(function(k) {
+        var it = allPfReq[k];
+        var st = it.status === 'SUCCESS' ? '<strong style="color:green;">' + it.pan + '</strong>' : '<span style="color:orange;">PENDING</span>';
+        return '<tr><td>' + k + '</td><td>' + it.retailerName + '</td><td>' + it.name + '</td><td>' + it.aadhaar + '</td><td>' + it.dob + '</td><td>' + st + '</td><td><button onclick="adminSetPan(\'' + k + '\')" style="cursor:pointer; padding:2px 5px;">PAN भरें</button></td></tr>';
+      }).join('');
+    }
+
+    function renderAdminPd() {
+      var el = document.getElementById('aTablePd');
+      var keys = Object.keys(allPdReq);
+      if (!keys.length) { el.innerHTML = '<tr><td colspan="6">कोई रिक्वेस्ट नहीं है</td></tr>'; return; }
+      el.innerHTML = keys.map(function(k) {
+        var it = allPdReq[k];
+        var st = it.status === 'SUCCESS' ? '<strong style="color:green;">' + it.details + '</strong>' : '<span style="color:orange;">PENDING</span>';
+        return '<tr><td>' + k + '</td><td>' + it.retailerName + '</td><td>' + it.pan + '</td><td>' + it.mobile + '</td><td>' + st + '</td><td><button onclick="adminSetDetails(\'' + k + '\')" style="cursor:pointer; padding:2px 5px;">विवरण भरें</button></td></tr>';
+      }).join('');
+    }
+
+    function adminSetPan(k) {
+      var p = prompt('पैन नंबर दर्ज करें:');
+      if (p && p.trim().length === 10) {
+        fetch(FIREBASE_URL + "/pan_find_requests/" + k + ".json", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: "SUCCESS", pan: p.trim().toUpperCase() })
+        }).then(function() { startDataSync(); });
+      }
+    }
+
+    function adminSetDetails(k) {
+      var d = prompt('विवरण दर्ज करें:');
+      if (d && d.trim()) {
+        fetch(FIREBASE_URL + "/pan_details_requests/" + k + ".json", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ status: "SUCCESS", details: d.trim() })
+        }).then(function() { startDataSync(); });
+      }
+    }
+
+    function submitPa() {
+      var name = document.getElementById('paName').value.trim();
+      if (!name) return alert('ग्राहक का नाम आवश्यक है!');
+
+      if (curUser.role === 'retailer') {
+        if (curUser.wallet < 107) return alert('वॉलेट में न्यूनतम ₹107 होना चाहिए!');
+        fetch(FIREBASE_URL + "/retailers/" + curUser.id + "/wallet.json", {
+          method: "PUT",
+          body: JSON.stringify(curUser.wallet - 107)
+        });
+      }
+
+      hideAllModules();
+      document.getElementById('receiptBox').style.display = 'block';
+      document.getElementById('rNo').textContent = 'RB-PAN' + Math.floor(10000000 + Math.random() * 90000000);
+      document.getElementById('rDate').textContent = new Date().toLocaleString();
+      document.getElementById('rName').textContent = name;
+      startDataSync();
+    }
+  </script>
+</body>
+</html>
