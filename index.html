@@ -3,67 +3,133 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RAGHU BABA ONLINE SERVICE - Portal</title>
+  <title>RAGHU BABA ONLINE SERVICE - Login</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
     body {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #9333ea 100%);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      background: linear-gradient(135deg, rgba(79, 70, 229, 0.85), rgba(147, 51, 234, 0.85)), 
-                  url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat fixed;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 20px 10px;
     }
 
-    /* Top Navigation Bar */
-    .navbar {
+    /* Top White Navbar */
+    .header-nav {
+      width: 100%;
+      max-width: 900px;
       background: #ffffff;
-      padding: 12px 24px;
+      padding: 12px 20px;
+      border-radius: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      max-width: 1050px;
-      margin: 15px auto 0;
-      border-radius: 8px;
-      width: 92%;
-    }
-    .brand { font-size: 18px; font-weight: 800; color: #3b82f6; }
-    .nav-links a { text-decoration: none; color: #4b5563; font-size: 13px; font-weight: 600; margin-left: 15px; }
-    .nav-btn-login { background: #3b82f6; color: #ffffff !important; padding: 6px 14px; border-radius: 4px; }
-
-    /* Center Wrapper */
-    .auth-wrapper {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 25px 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      margin-bottom: 30px;
     }
 
-    /* Login Card */
-    #loginCard {
-      background: #ffffff;
+    .brand-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #2563eb;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #4b5563;
+      font-size: 13px;
+      font-weight: bold;
+      margin-left: 15px;
+    }
+
+    .nav-links a.active {
+      background: #2563eb;
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 4px;
+    }
+
+    /* White Center Card */
+    .card-box {
       width: 100%;
-      max-width: 420px;
-      padding: 32px 26px;
+      max-width: 400px;
+      background: #ffffff;
+      padding: 30px 24px;
       border-radius: 12px;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
       text-align: center;
     }
-    #loginCard h2 { font-size: 24px; font-weight: 800; color: #1e293b; margin-bottom: 5px; }
-    #loginCard p.sub { font-size: 13px; color: #64748b; margin-bottom: 22px; }
 
-    .field { text-align: left; margin-bottom: 15px; }
-    .field label { display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 6px; }
-    .field input { width: 100%; padding: 11px 13px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
-    .field input:focus { border-color: #6366f1; }
+    .card-box h2 {
+      font-size: 24px;
+      color: #1e293b;
+      margin-bottom: 6px;
+    }
 
-    .btn-signin {
+    .card-box p.subtitle {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 20px;
+    }
+
+    .input-row {
+      text-align: left;
+      margin-bottom: 15px;
+    }
+
+    .input-row label {
+      display: block;
+      font-size: 12px;
+      font-weight: bold;
+      color: #334155;
+      margin-bottom: 5px;
+    }
+
+    .input-row input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .input-row input:focus {
+      border-color: #6366f1;
+    }
+
+    .btn-action {
       width: 100%;
       padding: 12px;
-      background: linear-gradient(90deg, #4f46e5, #6366f1);
+      background: linear-gradient(90deg, #4f46e5, #7c3aed);
       color: #ffffff;
       border: none;
       border-radius: 6px;
-      font-size: 15px
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+
+    .btn-action:hover {
+      opacity: 0.95;
+    }
+
+    .status-text {
+      font-size: 12px;
+      color: #16a34a;
+      margin: 12px 0;
+      font-weight: bold;
+    }
+
+    .help-btn {
+      width: 100%;
+      padding
