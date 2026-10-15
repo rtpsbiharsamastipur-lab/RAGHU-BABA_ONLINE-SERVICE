@@ -1,76 +1,222 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Login to Raghu Baba Online Service for secure access to digital services.">
-  <title>RAGHU BABA ONLINE SERVICE - Login</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Montserrat', sans-serif;
-      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Login to Rekha Print Portal for secure access to all your printing services.">
+<meta name="keywords" content="Rekha Print Portal, Rekha Print, Rekha Portal, Rekha Online Print, Rekha Printing Services">
+<title>YASH PORTAL Print - Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+}
+#particles {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0;
+}
+.particle {
+    position: absolute;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    animation: float linear infinite;
+}
+@keyframes float {
+    0% {transform: translateY(0) translateX(0);}
+    100% {transform: translateY(-120vh) translateX(20px);}
+}
+.brand-watermark {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10vw;
+    color: rgba(255,255,255,0.05);
+    font-family: 'Playfair Display', serif;
+    z-index: 0;
+    text-align: center;
+    animation: fade 5s infinite alternate;
+}
+@keyframes fade {
+    from {opacity: 0.05;}
+    to {opacity: 0.1;}
+}
+.luxury-container {
+    position: relative;
+    z-index: 1;
+    width: 90%;
+    max-width: 450px;
+    margin: 20px auto;
+    padding: 0 10px;
+}
+.luxury-card {
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(25px);
+    border-radius: 20px;
+    padding: 30px 20px;
+    width: 100%;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    text-align: center;
+    color: #fff;
+}
+.brand-header .brand-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8em;
+    font-weight: 700;
+}
+.brand-header .brand-subtitle {
+    font-size: 0.9em;
+    letter-spacing: 1px;
+    color: #ddd;
+    margin-bottom: 15px;
+}
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+.form-group input {
+    width: 100%;
+    padding: 12px 40px 12px 15px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    font-size: 1em;
+}
+.form-group input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(255,255,255,0.5);
+}
+.input-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 1.1em;
+}
+.submit-btn {
+    width: 100%;
+    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    padding: 12px;
+    font-size: 1em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.submit-btn:hover {
+    transform: scale(1.03);
+    opacity: 0.95;
+}
+.footer-links {
+    margin-top: 15px;
+    font-size: 0.85em;
+}
+.footer-links a {
+    color: #ddd;
+    text-decoration: none;
+    margin: 0 4px;
+}
+.footer-links a:hover {
+    text-decoration: underline;
+}
+.download-app-btn {
+    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+.download-app-btn:hover {
+    opacity: 0.85;
+}
+@media(max-width:400px){
+    .brand-header .brand-logo {
+        font-size: 1.5em;
     }
-
-    #particles {
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      width: 100%; 
-      height: 100%;
-      z-index: 0;
-    }
-
-    .particle {
-      position: absolute;
-      background: rgba(255,255,255,0.3);
-      border-radius: 50%;
-      animation: float linear infinite;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0) translateX(0); }
-      100% { transform: translateY(-120vh) translateX(20px); }
-    }
-
-    .brand-watermark {
-      position: fixed;
-      top: 50%; 
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 7vw;
-      color: rgba(255,255,255,0.04);
-      font-family: 'Playfair Display', serif;
-      z-index: 0;
-      text-align: center;
-      pointer-events: none;
-    }
-
-    .luxury-container {
-      position: relative;
-      z-index: 1;
-      width: 90%;
-      max-width: 450px;
-      margin: 20px auto;
-      padding: 0 10px;
-    }
-
     .luxury-card {
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border-radius: 20px;
-      padding: 35px 25px;
-      width: 100%;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-      text-align: center;
+        padding: 20px 15px;
+    }
+}
+</style>
+</head>
+<body>
+
+<div style="position:fixed;top:20px;right:20px;z-index:10;">
+    <!---<a href="app-release.apk" class="download-app-btn">📱 Download App</a>---->
+</div>
+
+<div id="particles"></div>
+<div class="brand-watermark">Welcome to YASH PORTAL Print</div>
+
+<div class="luxury-container">
+    <div class="luxury-card">
+        <div class="brand-header">
+            <div class="brand-logo">YASH PORTAL Print</div>
+            <div class="brand-subtitle">Secure Access Portal</div>
+        </div>
+        
+        <form method="POST">
+            <div class="form-group">
+                <input type="text" name="username" placeholder="Email or Mobile Number" required autocomplete="username">
+                <div class="input-icon">✉️</div>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" required autocomplete="current-password">
+                <div class="input-icon">🔒</div>
+            </div>
+            <button type="submit" name="login" class="submit-btn">Authenticate</button>
+        </form>
+        
+        <div class="footer-links">
+            <a href="restpassword.php">Forgot password?</a> • 
+            <a href="createaccount">Create account</a>
+             <br><br><br>
+            <div class="text-center pt-2">
+    <a href="check-account-status" class="btn btn-outline-primary btn-sm">
+        <i class="fa fa-search me-1"></i> Active My Account
+    </a>
+</div>
+        </div>
+    </div>
+</div>
+
+<!---<script>
+// Create floating particles
+const container = document.getElementById('particles');
+for(let i=0;i<30;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const size=Math.random()*10+3;
+    p.style.width=p.style.height=size+'px';
+    p.style.left=Math.random()*100+'%';
+    p.style.top=110+Math.random()*30+'%';
+    p.style.animationDuration=(10+Math.random()*20)+'s';
+    container.appendChild(p);
+}
+
+// Show WhatsApp ban notice popup on page load
+Swal.fire({
+    icon: 'info',
+    title: 'WhatsApp Ban Notice',
+    html: 'Mera WhatsApp ban ho gaya hai.<br>Unban hone me <b>24 hours</b> lagenge.<br><br>Agar koi jankari chahiye to hme mail kre:<br><a href="mailto:support@rekhaprint.in">support@rekhaprint.in</a>',
+    confirmButtonText: 'OK',
+    allowOutsideClick: false
+});
+</script>---->
+
+</body>
+</html>
