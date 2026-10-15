@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RAGHU BABA ONLINE SERVICE - B2B Digital Portal</title>
+  
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
   <style>
     :root {
       --primary-gradient: linear-gradient(135deg, #ff9933, #ffffff, #138808);
@@ -109,41 +114,37 @@
   <!-- Top Decorative Tricolor Brand Banner -->
   <header>
     <div class="header-left">
-      <img src="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEiEBj48dKKABxOvy3pBKhnPD5kiNh6LH8_5O1mBOZCPIu0glVjncEIMmUGWv9QlSQOG3A8iQfCP27RH8NchP1puqDzywucD-c__qkfgNVzxbszQ-epKIE1MfAyqKxS73jIb0tbthj7SsrKmpuMnKUSJlIuS4j09d6mffXNffOo_YEcgt_Ibrlh4etz59Xnj9TZAomo45kLXgsScBXuh5JgxKCkoEWwID_yEq18UhQeto=" alt="PM Kisan" class="header-logo">
+      <img src="https://pmkisan.gov.in/images/pmkisan_logo.png" alt="PM Kisan" class="header-logo" onerror="this.src='https://via.placeholder.com/65?text=Kisan'">
     </div>
     <div class="header-center">
       <h1>RAGHU BABA ONLINE SERVICE</h1>
       <p>ALL DIGITAL SERVICES AT ONE PLACE • भारत सरकार की डिजिटल सेवाएँ</p>
     </div>
     <div class="header-right">
-      <img src="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuuZGbszqtm5ZufzUbirS3sQ15yBJjlYpw5VBHt3N1d3utRgBVhU1HFZtjDQ3ksaiUY1MfA4DWNG-d2XOipy3f3t8gVKqA--ihsvucnnpSx5IMD18VYoiZ4n6vs6bGgFup-zLzlsRdyIIV87vrbqWVdYK8R6iVzR1vC173GXUZJyMDwj7muT7NdUif8g==" alt="CSC Service" class="header-logo-csc">
+      <img src="https://digitalseva.csc.gov.in/assets/images/csc-logo.png" alt="CSC Service" class="header-logo-csc" onerror="this.src='https://via.placeholder.com/60?text=CSC'">
     </div>
   </header>
 
   <!-- Rolling Ticker Notice -->
   <div class="ticker-bar">
-    <marquee scrollamount="4">🔔 सूचना: पोर्टल पर PM-Kisan, पैन कार्ड, वोटर कार्ड और आयुष्मान भारत की सभी सेवाएँ सुचारू रूप से चालू हैं। आवश्यक सूचना के लिए एडमिन से संपर्क करें। 🔔</marquee>
+    <marquee scrollamount="4">🔔 सूचना: क्लाउड डेटाबेस (Firebase) लाइव सक्रिय है। सभी रिटेलर और वॉलेट डेटा सुरक्षित हैं। 🔔</marquee>
   </div>
 
   <!-- User Active Info Bar -->
   <div class="user-bar" id="topBar" style="display: none;">
     <div class="wallet-badge" id="userWallet">Wallet: ₹0.00</div>
-    <div>नमस्ते, <span id="userName" style="font-weight: bold; color: #fbbf24;"></span> (Retailer Account)</div>
+    <div>नमस्ते, <span id="userName" style="font-weight: bold; color: #fbbf24;"></span></div>
     <button class="btn-exit" onclick="userLogout()">लॉगआउट (Logout)</button>
   </div>
 
   <!-- Login Area -->
   <div class="container" id="loginWrapper">
     <div id="loginPanel">
-      <div class="login-logos">
-        <img src="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEiEBj48dKKABxOvy3pBKhnPD5kiNh6LH8_5O1mBOZCPIu0glVjncEIMmUGWv9QlSQOG3A8iQfCP27RH8NchP1puqDzywucD-c__qkfgNVzxbszQ-epKIE1MfAyqKxS73jIb0tbthj7SsrKmpuMnKUSJlIuS4j09d6mffXNffOo_YEcgt_Ibrlh4etz59Xnj9TZAomo45kLXgsScBXuh5JgxKCkoEWwID_yEq18UhQeto=" alt="PMKisan">
-        <img src="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQEuuZGbszqtm5ZufzUbirS3sQ15yBJjlYpw5VBHt3N1d3utRgBVhU1HFZtjDQ3ksaiUY1MfA4DWNG-d2XOipy3f3t8gVKqA--ihsvucnnpSx5IMD18VYoiZ4n6vs6bGgFup-zLzlsRdyIIV87vrbqWVdYK8R6iVzR1vC173GXUZJyMDwj7muT7NdUif8g==" alt="CSC">
-      </div>
       <h2 style="text-align: center; margin-bottom: 0.4rem; color: #1e3a8a;">डिजिटल पोर्टल लॉगिन</h2>
-      <p style="text-align: center; font-size: 0.8rem; color: #64748b; margin-bottom: 1.5rem;">Raghu Baba Digital Networks</p>
+      <p style="text-align: center; font-size: 0.8rem; color: #64748b; margin-bottom: 1.5rem;">Raghu Baba Digital Networks (Cloud Sync)</p>
       
       <div class="input-group">
-        <label>यूज़र ID (User ID)</label>
+        <label>यूज़र ID / Mobile</label>
         <input type="text" id="authUserId" placeholder="अपनी ID दर्ज करें">
       </div>
       <div class="input-group">
@@ -159,64 +160,63 @@
 
     <!-- Admin Master Section -->
     <div id="adminMasterSection" style="display: none;">
-      <h3 style="margin-bottom: 0.8rem; font-size: 1.1rem; color: #c2410c;">🛠️ एडमिन कंसोल - दुकानदार और बैलेंस जोड़ें</h3>
+      <h3 style="margin-bottom: 0.8rem; font-size: 1.1rem; color: #c2410c;">🛠️ क्लाउड एडमिन कंसोल - नया दुकानदार व बैलेंस जोड़ें</h3>
       <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
         <input type="text" id="admRetName" placeholder="दुकानदार का नाम" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
-        <input type="text" id="admRetId" placeholder="User ID" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
+        <input type="text" id="admRetId" placeholder="User ID / Mobile" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
         <input type="text" id="admRetPass" placeholder="Password" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px;">
         <input type="number" id="admRetBal" placeholder="प्रारंभिक Wallet ₹" style="padding: 0.5rem; border: 1px solid var(--border); border-radius: 4px; width: 120px;">
         <button onclick="createNewRetailerAccount()" style="background: var(--success); color: white; border: none; padding: 0.5rem 1rem; border-radius: 4px; cursor: pointer; font-weight: bold;">ID बनाएँ</button>
       </div>
-      <div id="retailerListDisplay" style="margin-top: 1rem; font-size: 0.85rem; background: white; padding: 0.8rem; border-radius: 6px; border: 1px solid var(--border);"></div>
+      <div id="retailerListDisplay" style="margin-top: 1rem; font-size: 0.85rem; background: white; padding: 0.8rem; border-radius: 6px; border: 1px solid var(--border);">डेटा लोड हो रहा है...</div>
     </div>
 
     <!-- Active Service Menu -->
-    <h2 class="section-title"><span>📂 मुख्य सेवाएँ (Popular Digital Services)</span> <span>CSC ID: Active</span></h2>
+    <h2 class="section-title"><span>📂 मुख्य डिजिटल सेवाएँ</span> <span>Cloud Server: Connected</span></h2>
     <div class="grid-menu">
       <div class="service-card sc-pan" onclick="openWorkModule('pan_apply')">
         <h3>PAN Services (पैन कार्ड)</h3>
-        <p>नया पैन कार्ड आवेदन (e-KYC पेपरलेस) और तुरंत रसीद (Acknowledge) जनरेट करें।</p>
+        <p>नया पैन कार्ड आवेदन (e-KYC पेपरलेस) और तुरंत रसीद (Slip) प्राप्त करें।</p>
         <div class="card-footer">ओपन करें ➔</div>
       </div>
       
-      <div class="service-card sc-aadhaar" onclick="alert('आधार डाउनलोड/अपडेट पोर्टल पर भेजा जा रहा है...')">
+      <div class="service-card sc-aadhaar" onclick="window.open('https://myaadhaar.uidai.gov.in/', '_blank')">
         <h3>Aadhaar Services (आधार)</h3>
-        <p>आधार डाउनलोड, PVC कार्ड आर्डर और अपॉइंटमेंट के डायरेक्ट लिंक।</p>
-        <div class="card-footer">ओपन करें ➔</div>
+        <p>आधार डाउनलोड, PVC कार्ड ऑर्डर और आधिकारिक पोर्टल लिंक।</p>
+        <div class="card-footer">पोर्टल खोलें ➔</div>
       </div>
 
-      <div class="service-card sc-voter" onclick="alert('NVSP पोर्टल खोला जा रहा है...')">
+      <div class="service-card sc-voter" onclick="window.open('https://voters.eci.gov.in/', '_blank')">
         <h3>Voter ID NVSP (वोटर कार्ड)</h3>
         <p>नया वोटर आईडी आवेदन, संशोधन, वोटर लिस्ट सर्च और EPIC डाउनलोड।</p>
-        <div class="card-footer">ओपन करें ➔</div>
+        <div class="card-footer">पोर्टल खोलें ➔</div>
       </div>
 
-      <div class="service-card sc-kisan" onclick="alert('PM Kisan सम्मान निधि पोर्टल एक्टिव किया जा रहा है...')">
-        <img src="https://vertexaisearch.cloud.google.com/grounding-api-redirect/AUZIYQGEiEBj48dKKABxOvy3pBKhnPD5kiNh6LH8_5O1mBOZCPIu0glVjncEIMmUGWv9QlSQOG3A8iQfCP27RH8NchP1puqDzywucD-c__qkfgNVzxbszQ-epKIE1MfAyqKxS73jIb0tbthj7SsrKmpuMnKUSJlIuS4j09d6mffXNffOo_YEcgt_Ibrlh4etz59Xnj9TZAomo45kLXgsScBXuh5JgxKCkoEWwID_yEq18UhQeto=" alt="Kisan">
+      <div class="service-card sc-kisan" onclick="window.open('https://pmkisan.gov.in/', '_blank')">
         <h3>PM Kisan (किसान योजना)</h3>
-        <p>किसान सम्मान निधि केवाईसी, नया पंजीकरण और स्टेटस जाँच।</p>
-        <div class="card-footer">ओपन करें ➔</div>
+        <p>किसान सम्मान निधि केवाईसी, नया पंजीकरण और बेनिफिशियरी स्टेटस जाँच।</p>
+        <div class="card-footer">पोर्टल खोलें ➔</div>
       </div>
 
-      <div class="service-card sc-ayushman" onclick="alert('आयुष्मान कार्ड सर्विस...')">
+      <div class="service-card sc-ayushman" onclick="window.open('https://beneficiary.nha.gov.in/', '_blank')">
         <h3>Ayushman Card (आयुष्मान भारत)</h3>
         <p>पात्रता की जाँच, नया आयुष्मान कार्ड बनाना और कार्ड डाउनलोड प्रिंट।</p>
-        <div class="card-footer">ओपन करें ➔</div>
+        <div class="card-footer">पोर्टल खोलें ➔</div>
       </div>
 
-      <div class="service-card sc-dl" onclick="alert('परिवहन सेवा...')">
+      <div class="service-card sc-dl" onclick="window.open('https://sarathi.parivahan.gov.in/', '_blank')">
         <h3>DL / LL Apply (ड्राइविंग लाइसेंस)</h3>
-        <p>लर्निंग लाइसेंस, परमानेंट ड्राइविंग लाइसेंस, नवीनीकरण और स्टेटस।</p>
-        <div class="card-footer">ओपन करें ➔</div>
+        <p>लर्निंग लाइसेंस, परमानेंट ड्राइविंग लाइसेंस, नवीनीकरण और वाहन सेवाएँ।</p>
+        <div class="card-footer">पोर्टल खोलें ➔</div>
       </div>
 
-      <div class="service-card sc-rtps" onclick="alert('RTPS प्रमाण पत्र पोर्टल...')">
-        <h3>RTPS / Birth Certificate</h3>
+      <div class="service-card sc-rtps" onclick="window.open('https://serviceonline.bihar.gov.in/', '_blank')">
+        <h3>RTPS बिहार (प्रमाण-पत्र)</h3>
         <p>जन्म प्रमाण-पत्र, जाति, आय, निवास और EWS ऑनलाइन आवेदन।</p>
-        <div class="card-footer">ओपन करें ➔</div>
+        <div class="card-footer">पोर्टल खोलें ➔</div>
       </div>
 
-      <div class="service-card sc-ration" onclick="alert('राशन कार्ड पोर्टल...')">
+      <div class="service-card sc-ration" onclick="alert('राशन कार्ड पोर्टल लोड हो रहा है...')">
         <h3>Ration Card (राशन कार्ड)</h3>
         <p>नया राशन कार्ड आवेदन, नाम सुधार और राशन कार्ड डाउनलोड।</p>
         <div class="card-footer">ओपन करें ➔</div>
@@ -229,7 +229,7 @@
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
         <div class="input-group">
           <label>आवेदक का पूरा नाम (Applicant Name)</label>
-          <input type="text" id="panCustName" placeholder="आधार कार्ड के अनुसार दर्ज करें">
+          <input type="text" id="panCustName" placeholder="दस्तावेज के अनुसार दर्ज करें">
         </div>
         <div class="input-group">
           <label>पिता का नाम (Father's Name)</label>
@@ -244,7 +244,7 @@
           <input type="number" id="panCustMobile" placeholder="ग्राहक का मोबाइल">
         </div>
       </div>
-      <p style="font-size: 0.85rem; color: #dc2626; margin-bottom: 1.2rem; font-weight: bold;">📜 नोट: आवेदन के लिए ₹107 की राशि आपके वॉलेट से काटी जाएगी और तुरंत प्रिंट रसीद (Slip) मिल जाएगी।</p>
+      <p style="font-size: 0.85rem; color: #dc2626; margin-bottom: 1.2rem; font-weight: bold;">📜 नोट: आवेदन के लिए ₹107 की राशि आपके वॉलेट से काटी जाएगी और तुरंत प्रिंट रसीद जनरेट होगी।</p>
       <button class="btn-submit" onclick="submitPanCardApplication()" style="width: 250px;">सबमिट करें और रसीद पाएँ</button>
     </div>
 
@@ -254,30 +254,53 @@
         <h2 style="font-size: 1.2rem; color: #1e3a8a;">RAGHU BABA ONLINE SERVICE</h2>
         <p style="font-size: 0.8rem; color: #475569;">Digital Seva Center Acknowledgement Receipt</p>
       </div>
-      <div class="receipt-row"><span>Receipt / Acknowledge No:</span><strong id="rcptNo" style="color: #1e3a8a;"></strong></div>
-      <div class="receipt-row"><span>दिनांक एवं समय (Date & Time):</span><span id="rcptDate"></span></div>
-      <div class="receipt-row"><span>ग्राहक का नाम (Applicant Name):</span><strong id="rcptName"></strong></div>
-      <div class="receipt-row"><span>सेवा का प्रकार (Service):</span><strong>New PAN Card Application (Form 49A)</strong></div>
+      <div class="receipt-row"><span>Receipt No:</span><strong id="rcptNo" style="color: #1e3a8a;"></strong></div>
+      <div class="receipt-row"><span>दिनांक एवं समय:</span><span id="rcptDate"></span></div>
+      <div class="receipt-row"><span>ग्राहक का नाम:</span><strong id="rcptName"></strong></div>
+      <div class="receipt-row"><span>सेवा का प्रकार:</span><strong>New PAN Card Application (Form 49A)</strong></div>
       <div class="receipt-row"><span>स्थिति (Status):</span><span style="color: green; font-weight: bold;">सफल (SUBMITTED)</span></div>
-      <div class="receipt-row"><span>कुल शुल्क (Total Charge):</span><strong>₹107.00</strong></div>
+      <div class="receipt-row"><span>कुल शुल्क:</span><strong>₹107.00</strong></div>
       <hr style="margin: 0.8rem 0; border: 1px dashed #000;">
       <p style="text-align: center; font-size: 0.8rem; color: #475569;">यह एक कंप्यूटर जनित डिजिटल रसीद है।</p>
       <div style="text-align: center; margin-top: 1.2rem;">
-        <button onclick="window.print()" style="padding: 0.5rem 1.5rem; background: #138808; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">रसीद प्रिंट करें (Print Receipt)</button>
+        <button onclick="window.print()" style="padding: 0.5rem 1.5rem; background: #138808; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold;">रसीद प्रिंट करें (Print)</button>
       </div>
     </div>
 
   </div>
 
   <script>
-    let activeSession = null;
-    let storedAccounts = JSON.parse(localStorage.getItem('rb_accounts_cloud_secured')) || [
-      { name: "Demo Retailer", id: "retailer1", pass: "12345", wallet: 500 }
-    ];
+    // Firebase Configuration Keys
+    const firebaseConfig = {
+      apiKey: "AIzaSyBdVCqnKwvgHeGrrp1FRXYhU_sTGr26M",
+      authDomain: "raghudigital-b685f.firebaseapp.com",
+      databaseURL: "https://raghudigital-b685f-default-rtdb.firebaseio.com",
+      projectId: "raghudigital-b685f",
+      storageBucket: "raghudigital-b685f.firebasestorage.app",
+      messagingSenderId: "581047177981",
+      appId: "1:581047177981:web:13bab1a9bf921d57af2494",
+      measurementId: "G-7DJ0QZQZRC"
+    };
 
-    function syncAccounts() {
-      localStorage.setItem('rb_accounts_cloud_secured', JSON.stringify(storedAccounts));
-    }
+    // Firebase Initialize
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    let activeSession = null;
+    let cloudAccounts = {};
+
+    // Cloud Database Listener
+    db.ref('retailers').on('value', (snapshot) => {
+      cloudAccounts = snapshot.val() || {};
+      if (activeSession && activeSession.role === 'admin') {
+        refreshRetailerList();
+      } else if (activeSession && activeSession.role === 'retailer') {
+        if (cloudAccounts[activeSession.id]) {
+          activeSession.wallet = cloudAccounts[activeSession.id].wallet;
+          document.getElementById('userWallet').textContent = `Wallet Balance: ₹${activeSession.wallet}.00`;
+        }
+      }
+    });
 
     function executeLogin() {
       const u = document.getElementById('authUserId').value.trim();
@@ -289,9 +312,8 @@
         return;
       }
 
-      const match = storedAccounts.find(x => x.id === u && x.pass === p);
-      if (match) {
-        activeSession = { role: 'retailer', ...match };
+      if (cloudAccounts[u] && cloudAccounts[u].pass === p) {
+        activeSession = { role: 'retailer', id: u, ...cloudAccounts[u] };
         renderDashboard();
         return;
       }
@@ -325,31 +347,44 @@
 
       if (!name || !id || !pass) return alert('सभी विवरण भरना अनिवार्य है!');
 
-      storedAccounts.push({ name, id, pass, wallet: bal });
-      syncAccounts();
-      refreshRetailerList();
-      alert('नया दुकानदार (ID) सफलतापूर्वक जोड़ दिया गया है!');
-
-      document.getElementById('admRetName').value = '';
-      document.getElementById('admRetId').value = '';
-      document.getElementById('admRetPass').value = '';
-      document.getElementById('admRetBal').value = '';
+      // Save to Firebase
+      db.ref('retailers/' + id).set({
+        name: name,
+        pass: pass,
+        wallet: bal
+      }, (error) => {
+        if (error) {
+          alert('डेटाबेस एरर: ' + error.message);
+        } else {
+          alert('नया दुकानदार (ID) Google Firebase डेटाबेस में सेव हो गया!');
+          document.getElementById('admRetName').value = '';
+          document.getElementById('admRetId').value = '';
+          document.getElementById('admRetPass').value = '';
+          document.getElementById('admRetBal').value = '';
+        }
+      });
     }
 
     function refreshRetailerList() {
       const target = document.getElementById('retailerListDisplay');
-      target.innerHTML = '<strong>दुकानदार सूची (Active Retailers):</strong> ' + storedAccounts.map((a, i) => 
-        `🔑 ${a.name} (ID: ${a.id}) - वॉलेट: ₹${a.wallet} <button onclick="topUpBalance(${i})" style="cursor:pointer; font-size:0.75rem; padding: 1px 4px; background:#1e3a8a; color:white; border:none; border-radius:3px;">बैलेंस जोड़ें</button>`
-      ).join(' | ');
+      const keys = Object.keys(cloudAccounts);
+      if (keys.length === 0) {
+        target.innerHTML = 'कोई दुकानदार नहीं मिला। ऊपर से नया दुकानदार जोड़ें।';
+        return;
+      }
+
+      target.innerHTML = '<strong>सक्रिय दुकानदार (Live Cloud):</strong> ' + keys.map(k => {
+        const item = cloudAccounts[k];
+        return `🔑 ${item.name} (ID: ${k}) - वॉलेट: ₹${item.wallet} <button onclick="topUpBalance('${k}')" style="cursor:pointer; font-size:0.75rem; padding: 2px 5px; background:#1e3a8a; color:white; border:none; border-radius:3px;">बैलेंस जोड़ें</button>`;
+      }).join(' | ');
     }
 
-    function topUpBalance(index) {
-      const val = prompt(`दुकानदार ${storedAccounts[index].name} के वॉलेट में कितनी राशि जोड़नी है?`, "500");
+    function topUpBalance(retId) {
+      const val = prompt(`दुकानदार ${cloudAccounts[retId].name} के वॉलेट में कितनी राशि जोड़नी है?`, "500");
       if (val && !isNaN(val)) {
-        storedAccounts[index].wallet += parseFloat(val);
-        syncAccounts();
-        refreshRetailerList();
-        alert('वॉलेट बैलेंस अपडेट कर दिया गया है!');
+        const newBal = (parseFloat(cloudAccounts[retId].wallet) || 0) + parseFloat(val);
+        db.ref('retailers/' + retId + '/wallet').set(newBal);
+        alert('वॉलेट बैलेंस क्लाउड पर अपडेट हो गया!');
       }
     }
 
@@ -365,16 +400,13 @@
 
       if (activeSession.role === 'retailer') {
         if (activeSession.wallet < 107) {
-          return alert('आपके वॉलेट में पर्याप्त बैलेंस नहीं है (न्यूनतम ₹107 आवश्यक)!');
+          return alert('वॉलेट में बैलेंस कम है (कम से कम ₹107 होना चाहिए)!');
         }
-        activeSession.wallet -= 107;
-        const target = storedAccounts.find(x => x.id === activeSession.id);
-        if (target) target.wallet = activeSession.wallet;
-        syncAccounts();
-        document.getElementById('userWallet').textContent = `Wallet Balance: ₹${activeSession.wallet}.00`;
+        const updatedBal = activeSession.wallet - 107;
+        db.ref('retailers/' + activeSession.id + '/wallet').set(updatedBal);
       }
 
-      // Generate Slip Screen
+      // Generate Slip
       document.getElementById('panApplyModule').style.display = 'none';
       document.getElementById('printReceiptArea').style.display = 'block';
       document.getElementById('rcptNo').textContent = 'RB-PAN' + Math.floor(100000000 + Math.random() * 900000000);
