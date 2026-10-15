@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RAGHU BABA ONLINE SERVICE - B2B Digital Portal</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
     body { background: #f1f5f9; color: #1e293b; min-height: 100vh; }
     
     header { 
@@ -20,18 +20,19 @@
     
     .ticker { background: #dc2626; color: white; padding: 6px 12px; font-size: 13px; font-weight: bold; }
     
-    .user-bar { background: #0f172a; color: white; padding: 8px 20px; display: none; justify-content: space-between; align-items: center; font-size: 14px; }
-    .wallet-pill { background: #1e293b; border: 1px solid #334155; padding: 4px 10px; border-radius: 4px; color: #4ade80; font-weight: bold; }
-    .btn-exit { background: #dc2626; color: white; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+    .user-bar { background: #0f172a; color: white; padding: 10px 20px; display: none; justify-content: space-between; align-items: center; font-size: 14px; }
+    .wallet-pill { background: #1e3a8a; padding: 5px 12px; border-radius: 4px; color: #4ade80; font-weight: bold; }
+    .btn-exit { background: #dc2626; color: white; border: none; padding: 6px 14px; border-radius: 4px; cursor: pointer; font-weight: bold; }
 
     .main-wrap { max-width: 1100px; margin: 20px auto; padding: 0 15px; }
 
-    /* Login Box */
-    #loginBox { max-width: 380px; margin: 50px auto; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-top: 5px solid #ff9933; }
+    /* Login Form */
+    #loginBox { max-width: 400px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-top: 5px solid #ff9933; }
     .field { margin-bottom: 15px; }
-    .field label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #334155; }
-    .field input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 5px; font-size: 15px; }
-    .btn-submit { width: 100%; background: #2563eb; color: white; padding: 10px; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .field label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 6px; color: #334155; }
+    .field input { width: 100%; padding: 10px; border: 1.5px solid #cbd5e1; border-radius: 5px; font-size: 15px; outline: none; }
+    .field input:focus { border-color: #2563eb; }
+    .btn-submit { width: 100%; background: #2563eb; color: white; padding: 12px; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; }
     .btn-submit:hover { background: #1d4ed8; }
 
     /* Dashboard */
@@ -39,7 +40,7 @@
     .dash-head { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #1e3a8a; border-left: 4px solid #ff9933; padding-left: 8px; }
     
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 15px; margin-bottom: 25px; }
-    .card { background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .card { background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 15px; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: 0.2s; }
     .card:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
     .card h3 { font-size: 16px; margin-bottom: 6px; color: #0f172a; }
     .card p { font-size: 12px; color: #64748b; line-height: 1.4; min-height: 34px; }
@@ -57,316 +58,11 @@
     .btn-green { background: #16a34a; color: white; border: none; padding: 8px 14px; border-radius: 4px; font-weight: bold; cursor: pointer; }
 
     table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; background: white; }
-    th, td { border: 1px solid #cbd5e1; padding: 7px; text-align: left; }
+    th, td { border: 1px solid #cbd5e1; padding: 8px; text-align: left; }
     th { background: #f8fafc; }
 
     /* Forms */
     .module-box { display: none; background: white; border: 1px solid #cbd5e1; border-top: 4px solid #2563eb; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
     .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     
-    #receiptBox { display: none; background: white; border: 2px dashed #0f172a; padding: 20px; max-width: 500px; margin: 20px auto; border-radius: 6px; }
-    .rcpt-line { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
-  </style>
-</head>
-<body>
-
-  <header>
-    <h1>RAGHU BABA ONLINE SERVICE</h1>
-    <p>ALL DIGITAL SERVICES AT ONE PLACE • भारत सरकार की डिजिटल सेवाएँ</p>
-  </header>
-
-  <div class="ticker">
-    <marquee scrollamount="4">🔔 सूचना: PAN Find (₹30) और PAN Details (₹10) सेवाएँ पोर्टल पर पूरी तरह चालू हैं। 🔔</marquee>
-  </div>
-
-  <div class="user-bar" id="navBar">
-    <div class="wallet-pill" id="wBadge">Wallet: ₹0.00</div>
-    <div>उपयोगकर्ता: <strong id="uBadge" style="color: #fbbf24;"></strong></div>
-    <button class="btn-exit" onclick="doLogout()">लॉगआउट</button>
-  </div>
-
-  <div class="main-wrap">
-
-    <!-- LOGIN FORM -->
-    <div id="loginBox">
-      <h2 style="text-align: center; margin-bottom: 5px; color: #1e3a8a; font-size: 20px;">डिजिटल पोर्टल लॉगिन</h2>
-      <p style="text-align: center; font-size: 12px; color: #64748b; margin-bottom: 20px;">Raghu Baba Digital Networks</p>
-      
-      <div class="field">
-        <label>यूज़र ID / Mobile</label>
-        <input type="text" id="uid" placeholder="ID दर्ज करें" value="admin">
-      </div>
-      <div class="field">
-        <label>पासवर्ड</label>
-        <input type="password" id="upw" placeholder="Password दर्ज करें" value="admin123">
-      </div>
-      <button class="btn-submit" onclick="doLogin()">पोर्टल में प्रवेश करें</button>
-    </div>
-
-    <!-- MAIN DASHBOARD -->
-    <div id="dashView">
-      
-      <!-- ADMIN AREA -->
-      <div id="adminBox" style="display: none;">
-        <h3 style="color: #c2410c; font-size: 15px;">🛠️ मुख्य एडमिन कंसोल - नया दुकानदार जोड़ें</h3>
-        <div class="admin-form">
-          <input type="text" id="aName" placeholder="दुकानदार का नाम">
-          <input type="text" id="aId" placeholder="User ID / Mobile">
-          <input type="text" id="aPw" placeholder="Password">
-          <input type="number" id="aBal" placeholder="Wallet ₹" style="width: 90px;">
-          <button class="btn-green" onclick="addRetailer()">दुकानदार बनाएँ</button>
-        </div>
-        <div id="adminRetailerList" style="background: white; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 12px; margin-bottom: 12px;">दुकानदार सूची लोड हो रही है...</div>
-
-        <h4 style="color: #0284c7; margin-top: 10px;">📋 PAN Find Requests (चार्ज: ₹30)</h4>
-        <table>
-          <thead>
-            <tr><th>ID</th><th>Retailer</th><th>नाम</th><th>आधार नंबर</th><th>DOB</th><th>Status / PAN</th><th>Action</th></tr>
-          </thead>
-          <tbody id="aTablePf"><tr><td colspan="7">कोई रिक्वेस्ट नहीं है</td></tr></tbody>
-        </table>
-
-        <h4 style="color: #059669; margin-top: 15px;">📋 PAN Details Requests (चार्ज: ₹10)</h4>
-        <table>
-          <thead>
-            <tr><th>ID</th><th>Retailer</th><th>PAN Number</th><th>Mobile</th><th>Status / Details</th><th>Action</th></tr>
-          </thead>
-          <tbody id="aTablePd"><tr><td colspan="6">कोई रिक्वेस्ट नहीं है</td></tr></tbody>
-        </table>
-      </div>
-
-      <!-- SERVICES -->
-      <div class="dash-head">मुख्य डिजिटल सेवाएँ</div>
-      <div class="grid">
-        <div class="card c-pf" onclick="openModule('pf')">
-          <h3>🔍 PAN Find Service</h3>
-          <p>आधार नंबर से खोया हुआ पैन नंबर प्राप्त करें। (शुल्क: ₹30)</p>
-          <div class="link-text">रिक्वेस्ट भेजें ➔</div>
-        </div>
-
-        <div class="card c-pd" onclick="openModule('pd')">
-          <h3>📄 PAN Details Service</h3>
-          <p>पैन नंबर से पूरा विवरण निकालें। (शुल्क: ₹10)</p>
-          <div class="link-text">विवरण खोजें ➔</div>
-        </div>
-
-        <div class="card c-pa" onclick="openModule('pa')">
-          <h3>PAN Apply (नया पैन)</h3>
-          <p>नया पैन कार्ड पेपरलेस आवेदन और तुरंत रसीद। (शुल्क: ₹107)</p>
-          <div class="link-text">आवेदन खोलें ➔</div>
-        </div>
-
-        <div class="card c-oth" onclick="window.open('https://myaadhaar.uidai.gov.in/', '_blank')">
-          <h3>Aadhaar Services</h3>
-          <p>आधार डाउनलोड, PVC कार्ड ऑर्डर व स्थिति जाँच।</p>
-          <div class="link-text">पोर्टल खोलें ➔</div>
-        </div>
-
-        <div class="card c-oth" onclick="window.open('https://voters.eci.gov.in/', '_blank')">
-          <h3>Voter ID (NVSP)</h3>
-          <p>नया वोटर कार्ड, नाम सुधार और EPIC डाउनलोड।</p>
-          <div class="link-text">पोर्टल खोलें ➔</div>
-        </div>
-
-        <div class="card c-oth" onclick="window.open('https://pmkisan.gov.in/', '_blank')">
-          <h3>PM Kisan Portal</h3>
-          <p>सम्मान निधि e-KYC एवं बेनिफिशियरी स्टेटस।</p>
-          <div class="link-text">पोर्टल खोलें ➔</div>
-        </div>
-
-        <div class="card c-oth" onclick="window.open('https://beneficiary.nha.gov.in/', '_blank')">
-          <h3>Ayushman Bharat</h3>
-          <p>पात्रता जाँच, नया आयुष्मान कार्ड एवं डाउनलोड।</p>
-          <div class="link-text">पोर्टल खोलें ➔</div>
-        </div>
-
-        <div class="card c-oth" onclick="window.open('https://serviceonline.bihar.gov.in/', '_blank')">
-          <h3>RTPS बिहार</h3>
-          <p>जाति, आय, निवास एवं अन्य ऑनलाइन प्रमाण-पत्र।</p>
-          <div class="link-text">पोर्टल खोलें ➔</div>
-        </div>
-      </div>
-
-      <!-- MODULE: PAN FIND -->
-      <div class="module-box" id="modPf">
-        <h3 style="color: #0284c7; margin-bottom: 12px;">🔍 PAN Find By Aadhaar (शुल्क: ₹30)</h3>
-        <div class="form-grid">
-          <div class="field"><label>ग्राहक का नाम</label><input type="text" id="pfName" placeholder="आधार के अनुसार"></div>
-          <div class="field"><label>आधार नंबर</label><input type="text" id="pfAadhaar" placeholder="12 अंकों का आधार" maxlength="12"></div>
-          <div class="field"><label>जन्म तिथि (DOB)</label><input type="date" id="pfDob"></div>
-          <div class="field"><label>मोबाइल नंबर</label><input type="number" id="pfMob" placeholder="मोबाइल"></div>
-        </div>
-        <button class="btn-submit" onclick="submitPf()" style="max-width: 220px;">सबमिट करें (₹30)</button>
-
-        <h4 style="margin-top: 20px; font-size: 13px;">मेरी रिक्वेस्ट हिस्ट्री</h4>
-        <table>
-          <thead><tr><th>ID</th><th>नाम</th><th>आधार</th><th>Status / PAN</th></tr></thead>
-          <tbody id="retPfBody"><tr><td colspan="4">लोड हो रहा है...</td></tr></tbody>
-        </table>
-      </div>
-
-      <!-- MODULE: PAN DETAILS -->
-      <div class="module-box" id="modPd">
-        <h3 style="color: #059669; margin-bottom: 12px;">📄 PAN Details Verification (शुल्क: ₹10)</h3>
-        <div class="form-grid">
-          <div class="field"><label>पैन नंबर</label><input type="text" id="pdPan" placeholder="10 अंकों का पैन" maxlength="10" style="text-transform: uppercase;"></div>
-          <div class="field"><label>मोबाइल नंबर</label><input type="number" id="pdMob" placeholder="मोबाइल"></div>
-        </div>
-        <button class="btn-submit" onclick="submitPd()" style="max-width: 220px;">डिटेल्स खोजें (₹10)</button>
-
-        <h4 style="margin-top: 20px; font-size: 13px;">मेरी रिक्वेस्ट हिस्ट्री</h4>
-        <table>
-          <thead><tr><th>ID</th><th>पैन नंबर</th><th>Status / Details</th></tr></thead>
-          <tbody id="retPdBody"><tr><td colspan="3">लोड हो रहा है...</td></tr></tbody>
-        </table>
-      </div>
-
-      <!-- MODULE: PAN APPLY -->
-      <div class="module-box" id="modPa">
-        <h3 style="color: #1e3a8a; margin-bottom: 12px;">🆕 नया पैन कार्ड आवेदन (Form 49A)</h3>
-        <div class="form-grid">
-          <div class="field"><label>आवेदक का नाम</label><input type="text" id="paName" placeholder="पूरा नाम"></div>
-          <div class="field"><label>पिता का नाम</label><input type="text" id="paFather" placeholder="पिता का नाम"></div>
-          <div class="field"><label>जन्म तिथि</label><input type="date" id="paDob"></div>
-          <div class="field"><label>मोबाइल</label><input type="number" id="paMob" placeholder="मोबाइल"></div>
-        </div>
-        <button class="btn-submit" onclick="submitPa()" style="max-width: 220px;">सबमिट करें (₹107)</button>
-      </div>
-
-      <!-- RECEIPT -->
-      <div id="receiptBox">
-        <h3 style="text-align: center; color: #1e3a8a; margin-bottom: 4px;">RAGHU BABA ONLINE SERVICE</h3>
-        <p style="text-align: center; font-size: 11px; color: #64748b; margin-bottom: 15px;">Digital Acknowledgement Receipt</p>
-        <div class="rcpt-line"><span>रसीद संख्या:</span><strong id="rNo" style="color: #1e3a8a;"></strong></div>
-        <div class="rcpt-line"><span>दिनांक:</span><span id="rDate"></span></div>
-        <div class="rcpt-line"><span>ग्राहक का नाम:</span><strong id="rName"></strong></div>
-        <div class="rcpt-line"><span>सेवा:</span><span>New PAN Application (Form 49A)</span></div>
-        <div class="rcpt-line"><span>स्थिति:</span><strong style="color: green;">सफल (SUBMITTED)</strong></div>
-        <div class="rcpt-line"><span>शुल्क:</span><strong>₹107.00</strong></div>
-        <hr style="margin: 10px 0; border: none; border-top: 1px dashed #000;">
-        <div style="text-align: center; margin-top: 10px;">
-          <button onclick="window.print()" style="padding: 6px 16px; background: #138808; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">प्रिंट करें</button>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <script>
-    var FIREBASE_URL = "https://raghudigital-b685f-default-rtdb.firebaseio.com";
-    var curUser = null;
-    var allRetailers = {};
-    var allPfReq = {};
-    var allPdReq = {};
-
-    function apiGet(path, cb) {
-      fetch(FIREBASE_URL + path + ".json")
-        .then(function(r) { return r.json(); })
-        .then(function(data) { cb(null, data || {}); })
-        .catch(function(err) { cb(err, {}); });
-    }
-
-    function apiPut(path, data, cb) {
-      fetch(FIREBASE_URL + path + ".json", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data)
-      })
-      .then(function(r) { return r.json(); })
-      .then(function(res) { if (cb) cb(null, res); })
-      .catch(function(err) { if (cb) cb(err); });
-    }
-
-    function syncData() {
-      apiGet("/retailers", function(e, d) {
-        allRetailers = d || {};
-        if (curUser && curUser.role === 'admin') renderAdminRetailers();
-        if (curUser && curUser.role === 'retailer' && allRetailers[curUser.id]) {
-          curUser.wallet = allRetailers[curUser.id].wallet;
-          document.getElementById('wBadge').textContent = 'Wallet: ₹' + curUser.wallet + '.00';
-        }
-      });
-      apiGet("/pan_find_requests", function(e, d) {
-        allPfReq = d || {};
-        if (curUser && curUser.role === 'admin') renderAdminPf();
-        if (curUser && curUser.role === 'retailer') renderRetailerPf();
-      });
-      apiGet("/pan_details_requests", function(e, d) {
-        allPdReq = d || {};
-        if (curUser && curUser.role === 'admin') renderAdminPd();
-        if (curUser && curUser.role === 'retailer') renderRetailerPd();
-      });
-    }
-    syncData();
-    setInterval(syncData, 5000);
-
-    function doLogin() {
-      var u = (document.getElementById('uid').value || '').trim();
-      var p = (document.getElementById('upw').value || '').trim();
-
-      if (u === 'admin' && p === 'admin123') {
-        curUser = { role: 'admin', name: 'Master Admin', wallet: 'अनलिमिटेड' };
-        showDashboard();
-        return;
-      }
-
-      if (allRetailers[u] && allRetailers[u].pass === p) {
-        curUser = { role: 'retailer', id: u, name: allRetailers[u].name, wallet: allRetailers[u].wallet };
-        showDashboard();
-        return;
-      }
-
-      alert('गलत यूज़र ID या पासवर्ड!');
-    }
-
-    function showDashboard() {
-      document.getElementById('loginBox').style.display = 'none';
-      document.getElementById('navBar').style.display = 'flex';
-      document.getElementById('dashView').style.display = 'block';
-
-      document.getElementById('uBadge').textContent = curUser.name;
-      document.getElementById('wBadge').textContent = curUser.role === 'admin' ? 'Master Admin' : 'Wallet: ₹' + curUser.wallet + '.00';
-
-      if (curUser.role === 'admin') {
-        document.getElementById('adminBox').style.display = 'block';
-        renderAdminRetailers();
-        renderAdminPf();
-        renderAdminPd();
-      } else {
-        document.getElementById('adminBox').style.display = 'none';
-      }
-    }
-
-    function doLogout() {
-      curUser = null;
-      document.getElementById('loginBox').style.display = 'block';
-      document.getElementById('navBar').style.display = 'none';
-      document.getElementById('dashView').style.display = 'none';
-      hideAllModules();
-    }
-
-    function hideAllModules() {
-      document.getElementById('modPf').style.display = 'none';
-      document.getElementById('modPd').style.display = 'none';
-      document.getElementById('modPa').style.display = 'none';
-      document.getElementById('receiptBox').style.display = 'none';
-    }
-
-    function openModule(m) {
-      hideAllModules();
-      if (m === 'pf') { document.getElementById('modPf').style.display = 'block'; renderRetailerPf(); }
-      if (m === 'pd') { document.getElementById('modPd').style.display = 'block'; renderRetailerPd(); }
-      if (m === 'pa') { document.getElementById('modPa').style.display = 'block'; }
-    }
-
-    function addRetailer() {
-      var name = document.getElementById('aName').value.trim();
-      var id = document.getElementById('aId').value.trim();
-      var pass = document.getElementById('aPw').value.trim();
-      var bal = parseFloat(document.getElementById('aBal').value) || 0;
-
-      if (!name || !id || !pass) return alert('सभी फ़ील्ड भरें!');
-
-      apiPut("/retailers/" + id, { name: name, pass: pass, wallet: bal }, function(err) {
-        if (!err) {
-          alert('दुकान
+    #receiptBox { display: none; background: white; border: 2px dashed #0f172a; padding: 20px; max-width: 500px; margin
